@@ -156,6 +156,30 @@
   .meta li.ver { color: var(--brand); border-color: var(--gold-deep); font-weight: 600; }
   .meta .plain { border: 0; background: none; }
 
+  /* 오른쪽 위 다운로드 수 */
+  .stats {
+    position: fixed; top: 52px; right: 60px; z-index: 2;
+    display: flex; align-items: stretch;
+    padding: 12px 6px 10px;
+    background: rgba(255, 255, 255, .82);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px -14px rgba(74, 44, 29, .35);
+    opacity: 0; transition: opacity .6s ease;
+  }
+  .stats.ready { opacity: 1; }
+  .stat { min-width: 84px; padding: 0 14px; text-align: center; }
+  .stat + .stat { border-left: 1px solid var(--line); }
+  .stat b {
+    display: block;
+    font-weight: 600;
+    font-size: 1.6rem; line-height: 1.2; color: var(--brand);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
+  .stat.today b { color: var(--gold-deep); }
+
   @media (max-width: 480px) {
     .logo { width: 112px; height: 112px; border-radius: 26px; }
     h1 { font-size: 2.9rem; }
@@ -165,6 +189,7 @@
     .corner.tl, .corner.tr { top: -8px; } .corner.bl, .corner.br { bottom: -8px; }
     .corner.tl, .corner.bl { left: -8px; } .corner.tr, .corner.br { right: -8px; }
     main { padding: 64px 30px; }
+    .stats { position: static; margin: 28px auto 0; width: fit-content; }
     .lines { -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 45%, transparent 45%, #000 100%);
                      mask-image: radial-gradient(ellipse 90% 60% at 50% 45%, transparent 45%, #000 100%); }
   }
@@ -199,6 +224,11 @@
       <span id="dl-label">최신판 확인 중…</span>
     </a>
     <ul id="meta" class="meta"><li class="plain">Windows 10 · 11</li></ul>
+  </div>
+
+  <div id="stats" class="stats" aria-label="내려받은 수">
+    <div class="stat"><b id="stat-total">–</b><span>누적</span></div>
+    <div class="stat today"><b id="stat-today">–</b><span>오늘</span></div>
   </div>
 </main>
 
@@ -242,10 +272,47 @@
   var label = document.getElementById("dl-label");
   var meta = document.getElementById("meta");
 
+  // 0 에서 목표 숫자까지 세어 올라간다
+  function countUp(el, to) {
+    var start = null, dur = 900;
+    function step(t) {
+      if (start === null) start = t;
+      var p = Math.min((t - start) / dur, 1);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))).toLocaleString("ko-KR");
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    // 애니메이션이 멈춰도(백그라운드 탭 등) 끝 숫자는 반드시 맞춘다
+    setTimeout(function () { el.textContent = to.toLocaleString("ko-KR"); }, dur + 100);
+  }
+
+  // 누적 = 모든 릴리스의 Setup.exe 다운로드 합. 오늘 = 누적 − 오늘 0시(KST) 기준값(stats 브랜치, Actions 가 기록)
+  function showStats(list) {
+    var total = 0;
+    list.forEach(function (r) {
+      r.assets.forEach(function (a) { if (a.name === SETUP) total += a.download_count; });
+    });
+    var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    var box = document.getElementById("stats");
+
+    countUp(document.getElementById("stat-total"), total);
+    box.classList.add("ready");
+
+    fetch("https://raw.githubusercontent.com/" + REPO + "/stats/stats.json", { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (s) {
+        var base = s.baselines && s.baselines[today];
+        if (typeof base === "number") countUp(document.getElementById("stat-today"), Math.max(0, total - base));
+      })
+      .catch(function () {});
+  }
+
   // releases/latest 는 prerelease 를 건너뛰므로 목록에서 직접 고른다
-  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=6")
+  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=100")
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (list) {
+      list = list.filter(function (r) { return !r.draft; });
+      showStats(list);
       var latest = list.find(function (r) {
         return !r.draft && r.assets.some(function (a) { return a.name === SETUP; });
       });
