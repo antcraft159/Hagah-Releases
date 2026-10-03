@@ -10,13 +10,20 @@
 <meta property="og:description" content="설교 메모 전용 앱 Hagah 최신판 내려받기">
 <meta property="og:image" content="https://antcraft159.github.io/Hagah-Releases/logo.png">
 <meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Gowun+Batang&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
+    --glow: #f8ecd6;
     --text: #2b1d14;
-    --muted: #6f5f53;
+    --muted: #8a7768;
+    --line: #eadfce;
     --brand: #4a2c1d;
-    --brand-text: #f6dca8;
+    --brand-deep: #331d12;
+    --gold: #f2d29b;
+    --gold-deep: #c99a52;
   }
 
   * { box-sizing: border-box; }
@@ -27,54 +34,114 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
+    background:
+      radial-gradient(520px 420px at 50% 38%, var(--glow), transparent 70%),
+      var(--bg);
     color: var(--text);
-    font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-family: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
     line-height: 1.65;
     word-break: keep-all;
   }
-  main { width: 100%; max-width: 680px; padding: 48px 16px; text-align: center; }
+  main { width: 100%; max-width: 560px; padding: 56px 16px; text-align: center; }
 
-  .hero img { width: 112px; height: 112px; border-radius: 24px; display: block; margin: 0 auto 20px; }
-  .hero h1 { font-size: 2.2rem; margin: 0; letter-spacing: 0.02em; }
-  .hero p { margin: 6px 0 0; color: var(--muted); }
+  /* 위에서부터 차례로 떠오른다 */
+  .rise { opacity: 0; transform: translateY(14px); animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .18s; } .d3 { animation-delay: .3s; } .d4 { animation-delay: .42s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
 
-  .download { margin: 32px 0 0; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    min-width: 260px; max-width: 100%;
-    padding: 16px 28px;
-    border-radius: 14px;
-    background: var(--brand); color: var(--brand-text);
-    font-size: 1.15rem; font-weight: 700; text-decoration: none;
-    transition: transform .1s ease, filter .15s ease;
+  .logo {
+    width: 132px; height: 132px; border-radius: 30px; margin: 0 auto; overflow: hidden; background: var(--brand);
+    box-shadow:
+      0 1px 2px rgba(51, 29, 18, .12),
+      0 14px 34px -10px rgba(74, 44, 29, .45),
+      0 30px 60px -24px rgba(201, 154, 82, .55);
   }
-  .btn:hover { filter: brightness(1.15); }
-  .btn:active { transform: translateY(1px); }
-  .btn[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+
+  /* PNG 가장자리의 흰 테두리를 잘라낸다 */
+  .logo img { display: block; width: 100%; height: 100%; transform: scale(1.07); }
+
+  h1 {
+    margin: 26px 0 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 600;
+    font-size: 3.4rem;
+    line-height: 1.05;
+    letter-spacing: .04em;
+    color: var(--brand);
+  }
+  .tagline {
+    margin: 10px 0 0;
+    font-family: "Gowun Batang", serif;
+    font-size: 1.08rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+  }
+
+  .ornament { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 30px auto 34px; width: 180px; }
+  .ornament::before, .ornament::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-deep)); }
+  .ornament::after { transform: scaleX(-1); }
+  .ornament span { width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold-deep); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    min-width: 280px; max-width: 100%;
+    padding: 18px 34px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #5a3624 0%, var(--brand) 55%, var(--brand-deep) 100%);
+    color: var(--gold);
+    font-size: 1.12rem; font-weight: 600; letter-spacing: .02em; text-decoration: none;
+    box-shadow:
+      inset 0 1px 0 rgba(242, 210, 155, .25),
+      0 10px 24px -8px rgba(74, 44, 29, .6);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow:
+      inset 0 1px 0 rgba(242, 210, 155, .3),
+      0 16px 30px -10px rgba(74, 44, 29, .65);
+  }
+  .btn:active { transform: translateY(0); }
+  .btn:focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 3px; }
+  .btn[aria-disabled="true"] { opacity: .6; pointer-events: none; }
   .btn svg { width: 22px; height: 22px; flex: none; }
-  .meta { margin: 12px 0 0; color: var(--muted); font-size: .92rem; min-height: 1.5em; }
+
+  .meta {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    margin: 20px 0 0; padding: 0; list-style: none;
+    min-height: 30px;
+    font-size: .84rem; color: var(--muted);
+  }
+  .meta li { padding: 3px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .7); }
+  .meta li.ver { color: var(--brand); border-color: var(--gold-deep); font-weight: 600; }
+  .meta .plain { border: 0; background: none; }
 
   @media (max-width: 480px) {
-    .hero h1 { font-size: 1.9rem; }
+    .logo { width: 112px; height: 112px; border-radius: 26px; }
+    h1 { font-size: 2.9rem; }
     .btn { width: 100%; min-width: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; opacity: 1; transform: none; }
+    .btn { transition: none; }
   }
 </style>
 </head>
 <body>
 <main>
-  <header class="hero">
-    <img src="logo.png" alt="Hagah 로고" width="112" height="112">
-    <h1>Hagah</h1>
-    <p>설교 메모 전용 앱</p>
-  </header>
+  <div class="logo rise d1"><img src="logo.png" alt="Hagah 로고" width="132" height="132"></div>
+  <h1 class="rise d2">Hagah</h1>
+  <p class="tagline rise d2">설교 메모 전용 앱</p>
 
-  <div class="download">
+  <div class="ornament rise d3" aria-hidden="true"><span></span></div>
+
+  <div class="rise d4">
     <a id="dl" class="btn" href="https://github.com/antcraft159/Hagah-Releases/releases" aria-disabled="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
       <span id="dl-label">최신판 확인 중…</span>
     </a>
-    <p id="meta" class="meta">Windows 10 · 11</p>
+    <ul id="meta" class="meta"><li class="plain">Windows 10 · 11</li></ul>
   </div>
 </main>
 
@@ -88,6 +155,15 @@
     return d.getFullYear() + "년 " + (d.getMonth() + 1) + "월 " + d.getDate() + "일";
   }
   function mb(bytes) { return (bytes / 1048576).toFixed(0) + "MB"; }
+  function chips(items) {
+    meta.innerHTML = "";
+    items.forEach(function (it) {
+      var li = document.createElement("li");
+      li.textContent = it.text;
+      if (it.cls) li.className = it.cls;
+      meta.appendChild(li);
+    });
+  }
 
   var dl = document.getElementById("dl");
   var label = document.getElementById("dl-label");
@@ -106,13 +182,18 @@
       dl.href = asset.browser_download_url;
       dl.removeAttribute("aria-disabled");
       label.textContent = "Windows용 내려받기";
-      meta.textContent = latest.tag_name + " · " + ymd(latest.published_at) + " · " + mb(asset.size) + " · Windows 10 · 11";
+      chips([
+        { text: latest.tag_name, cls: "ver" },
+        { text: ymd(latest.published_at) },
+        { text: mb(asset.size) },
+        { text: "Windows 10 · 11" }
+      ]);
     })
     .catch(function () {
       // API 한도(시간당 60회) 초과 등 — 릴리스 페이지로 보낸다
       dl.removeAttribute("aria-disabled");
       label.textContent = "내려받기 페이지로 가기";
-      meta.textContent = "맨 위 릴리스의 Assets 에서 " + SETUP + " 를 받아 주세요.";
+      chips([{ text: "맨 위 릴리스의 Assets 에서 " + SETUP + " 를 받아 주세요.", cls: "plain" }]);
     });
 })();
 </script>
