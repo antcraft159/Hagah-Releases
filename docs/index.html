@@ -9,63 +9,37 @@
 <meta property="og:title" content="Hagah 내려받기">
 <meta property="og:description" content="설교 메모 전용 앱 Hagah 최신판 내려받기">
 <meta property="og:image" content="https://antcraft159.github.io/Hagah-Releases/logo.png">
+<meta name="color-scheme" content="light">
 <style>
   :root {
-    --bg: #faf6f0;
-    --surface: #ffffff;
+    --bg: #ffffff;
     --text: #2b1d14;
     --muted: #6f5f53;
-    --line: #e7ddd1;
     --brand: #4a2c1d;
     --brand-text: #f6dca8;
-    --accent: #a8742a;
-    --notice-bg: #fff6e3;
-    --notice-line: #edd7a6;
-    --warn-bg: #fbeee8;
-    --warn-line: #ebc9b9;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #17110d;
-      --surface: #211913;
-      --text: #f1e8de;
-      --muted: #b3a394;
-      --line: #3a2d23;
-      --brand: #f2d29b;
-      --brand-text: #2b1a10;
-      --accent: #e0b267;
-      --notice-bg: #2b2216;
-      --notice-line: #4a3a22;
-      --warn-bg: #2d1d17;
-      --warn-line: #4d3226;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #17110d; --surface: #211913; --text: #f1e8de; --muted: #b3a394; --line: #3a2d23;
-    --brand: #f2d29b; --brand-text: #2b1a10; --accent: #e0b267;
-    --notice-bg: #2b2216; --notice-line: #4a3a22; --warn-bg: #2d1d17; --warn-line: #4d3226;
   }
 
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--bg);
     color: var(--text);
     font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
     line-height: 1.65;
     word-break: keep-all;
-    overflow-wrap: anywhere;
   }
-  a { color: var(--accent); }
-  main { max-width: 680px; margin: 0 auto; padding: 48px 16px 64px; }
+  main { width: 100%; max-width: 680px; padding: 48px 16px; text-align: center; }
 
-  .hero { text-align: center; }
   .hero img { width: 112px; height: 112px; border-radius: 24px; display: block; margin: 0 auto 20px; }
   .hero h1 { font-size: 2.2rem; margin: 0; letter-spacing: 0.02em; }
   .hero p { margin: 6px 0 0; color: var(--muted); }
 
-  .download { margin: 32px 0 0; text-align: center; }
+  .download { margin: 32px 0 0; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     min-width: 260px; max-width: 100%;
@@ -75,58 +49,15 @@
     font-size: 1.15rem; font-weight: 700; text-decoration: none;
     transition: transform .1s ease, filter .15s ease;
   }
-  .btn:hover { filter: brightness(1.08); }
+  .btn:hover { filter: brightness(1.15); }
   .btn:active { transform: translateY(1px); }
   .btn[aria-disabled="true"] { opacity: .55; pointer-events: none; }
   .btn svg { width: 22px; height: 22px; flex: none; }
   .meta { margin: 12px 0 0; color: var(--muted); font-size: .92rem; min-height: 1.5em; }
-  .mobile-note { display: none; margin: 16px auto 0; max-width: 420px; color: var(--muted); font-size: .92rem; }
-  .is-mobile .mobile-note { display: block; }
-
-  section { margin-top: 44px; }
-  h2 { font-size: 1.15rem; margin: 0 0 12px; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 18px 20px;
-  }
-  .warn { background: var(--warn-bg); border-color: var(--warn-line); }
-  ol { margin: 0; padding-left: 1.3em; }
-  ol li + li { margin-top: 6px; }
-  .small { color: var(--muted); font-size: .9rem; margin: 12px 0 0; }
-
-  .notice { background: var(--notice-bg); border: 1px solid var(--notice-line); border-radius: 14px; }
-  .notice + .notice { margin-top: 10px; }
-  .notice summary {
-    cursor: pointer; list-style: none;
-    padding: 14px 18px; display: flex; gap: 10px; align-items: baseline;
-  }
-  .notice summary::-webkit-details-marker { display: none; }
-  .notice summary::before { content: "▸"; color: var(--accent); flex: none; transition: transform .15s; }
-  .notice[open] summary::before { transform: rotate(90deg); }
-  .notice .title { font-weight: 600; flex: 1; }
-  .notice .date { color: var(--muted); font-size: .85rem; flex: none; }
-  .notice .body { padding: 0 18px 16px 38px; white-space: pre-wrap; font-size: .95rem; }
-
-  .history { list-style: none; margin: 0; padding: 0; }
-  .history li { padding: 12px 0; border-top: 1px solid var(--line); }
-  .history li:first-child { border-top: 0; padding-top: 0; }
-  .history .row { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
-  .history .ver { font-weight: 600; }
-  .history .when { color: var(--muted); font-size: .88rem; }
-  .history .row a { margin-left: auto; font-size: .9rem; }
-  .history .notes { margin: 6px 0 0; white-space: pre-wrap; color: var(--muted); font-size: .92rem; }
-  .tag { font-size: .75rem; padding: 1px 8px; border-radius: 999px; background: var(--brand); color: var(--brand-text); }
-
-  footer { margin-top: 56px; text-align: center; color: var(--muted); font-size: .85rem; }
 
   @media (max-width: 480px) {
-    main { padding-top: 32px; }
     .hero h1 { font-size: 1.9rem; }
     .btn { width: 100%; min-width: 0; }
-    .history .row a { margin-left: 0; }
   }
 </style>
 </head>
@@ -144,43 +75,7 @@
       <span id="dl-label">최신판 확인 중…</span>
     </a>
     <p id="meta" class="meta">Windows 10 · 11</p>
-    <p class="mobile-note">지금은 Windows용만 있어요. 이 주소를 PC에서 열어 내려받아 주세요.</p>
   </div>
-
-  <section id="notices-section" hidden>
-    <h2>공지</h2>
-    <div id="notices"></div>
-  </section>
-
-  <section>
-    <h2>설치하는 방법</h2>
-    <div class="card">
-      <ol>
-        <li>위 버튼으로 <b>Hagah-win-Setup.exe</b> 를 내려받아 실행하세요.</li>
-        <li>파란 <b>"Windows의 PC 보호"</b> 창이 뜨면 <b>추가 정보</b> → <b>실행</b> 을 누르세요.</li>
-        <li>설치가 끝나면 Hagah 가 바로 열려요. 바탕화면과 시작 메뉴에도 생겨요.</li>
-      </ol>
-      <p class="small">한 번 설치하면 새 버전이 나올 때 앱이 알아서 업데이트해요. 이 페이지에 다시 올 필요는 없어요.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="card warn">
-      <b>"PC 보호" 창이 왜 뜨나요?</b>
-      <p style="margin:6px 0 0">개인이 만든 앱이라 마이크로소프트의 유료 코드 서명이 아직 없어서 그래요. 이 페이지에서 받은 파일이라면 안심하고 실행하셔도 돼요.</p>
-    </div>
-  </section>
-
-  <section id="history-section" hidden>
-    <h2>버전 기록</h2>
-    <div class="card">
-      <ul id="history" class="history"></ul>
-    </div>
-  </section>
-
-  <footer>
-    <a href="https://github.com/antcraft159/Hagah-Releases/releases">모든 릴리스 보기 (GitHub)</a>
-  </footer>
 </main>
 
 <script>
@@ -188,19 +83,6 @@
   var REPO = "antcraft159/Hagah-Releases";
   var SETUP = "Hagah-win-Setup.exe";
 
-  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    document.documentElement.classList.add("is-mobile");
-  }
-
-  function esc(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-  // 이스케이프한 뒤 [글자](https://...) 만 링크로 바꾼다
-  function linkify(s) {
-    return esc(s).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-  }
   function ymd(iso) {
     var d = new Date(iso);
     return d.getFullYear() + "년 " + (d.getMonth() + 1) + "월 " + d.getDate() + "일";
@@ -215,9 +97,8 @@
   fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=6")
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (list) {
-      list = list.filter(function (r) { return !r.draft; });
       var latest = list.find(function (r) {
-        return r.assets.some(function (a) { return a.name === SETUP; });
+        return !r.draft && r.assets.some(function (a) { return a.name === SETUP; });
       });
       if (!latest) throw new Error("no setup");
       var asset = latest.assets.find(function (a) { return a.name === SETUP; });
@@ -226,41 +107,13 @@
       dl.removeAttribute("aria-disabled");
       label.textContent = "Windows용 내려받기";
       meta.textContent = latest.tag_name + " · " + ymd(latest.published_at) + " · " + mb(asset.size) + " · Windows 10 · 11";
-
-      var ul = document.getElementById("history");
-      ul.innerHTML = list.slice(0, 5).map(function (r, i) {
-        var notes = (r.body || "").trim();
-        return '<li><div class="row"><span class="ver">' + esc(r.tag_name) + "</span>" +
-          (i === 0 ? '<span class="tag">최신</span>' : "") +
-          '<span class="when">' + ymd(r.published_at) + "</span>" +
-          '<a href="' + esc(r.html_url) + '" target="_blank" rel="noopener">자세히</a></div>' +
-          (notes ? '<p class="notes">' + linkify(notes) + "</p>" : "") + "</li>";
-      }).join("");
-      document.getElementById("history-section").hidden = false;
     })
     .catch(function () {
       // API 한도(시간당 60회) 초과 등 — 릴리스 페이지로 보낸다
-      dl.href = "https://github.com/antcraft159/Hagah-Releases/releases";
       dl.removeAttribute("aria-disabled");
       label.textContent = "내려받기 페이지로 가기";
       meta.textContent = "맨 위 릴리스의 Assets 에서 " + SETUP + " 를 받아 주세요.";
     });
-
-  fetch("https://raw.githubusercontent.com/" + REPO + "/main/notices.json", { cache: "no-store" })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (data) {
-      var items = (data.notices || []).slice()
-        .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-        .slice(0, 3);
-      if (!items.length) return;
-      document.getElementById("notices").innerHTML = items.map(function (n, i) {
-        return '<details class="notice"' + (i === 0 && n.important ? " open" : "") + ">" +
-          '<summary><span class="title">' + esc(n.title) + '</span><span class="date">' + esc(n.date || "") + "</span></summary>" +
-          '<div class="body">' + linkify(n.content || "") + "</div></details>";
-      }).join("");
-      document.getElementById("notices-section").hidden = false;
-    })
-    .catch(function () {});
 })();
 </script>
 </body>
