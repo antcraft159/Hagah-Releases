@@ -1,0 +1,43 @@
+# 내려받기 페이지의 "오늘" 숫자를 위해 날마다 0시(KST) 무렵의 누적 다운로드 수를 stats 브랜치에 적어 둔다.
+# 예약 실행이 늦어질 수 있어 매시간 돌고, 그날 기록이 이미 있으면 아무것도 하지 않는다.
+name: 다운로드 수 기록
+
+on:
+  schedule:
+    - cron: "2 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stats
+
+      - name: 오늘 기준값 적기
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          TODAY=$(TZ=Asia/Seoul date +%F)
+          if jq -e --arg d "$TODAY" '.baselines | has($d)' stats.json > /dev/null; then
+            echo "$TODAY 기록이 이미 있다"
+            exit 0
+          fi
+
+          TOTAL=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/$REPO/releases?per_page=100" \
+            | jq '[.[].assets[] | select(.name == "Hagah-win-Setup.exe") | .download_count] | add // 0')
+          [[ "$TOTAL" =~ ^[0-9]+$ ]] || { echo "누적 수를 못 읽었다: $TOTAL"; exit 1; }
+
+          jq --arg d "$TODAY" --argjson t "$TOTAL" '.baselines[$d] = $t' stats.json > stats.tmp
+          mv stats.tmp stats.json
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "$TODAY 다운로드 기준값 $TOTAL"
+          git push
