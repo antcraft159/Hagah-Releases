@@ -1,6 +1,7 @@
 {
   "note": "날마다 0시(KST) 기준 Hagah-win-Setup.exe 누적 다운로드 수. GitHub Actions(.github/workflows/download-stats.yml)가 채운다.",
   "baselines": {
-    "2026-10-03": 2
+    "2026-10-03": 2,
+    "2026-10-04": 14
   }
 }
