@@ -286,33 +286,56 @@
     setTimeout(function () { el.textContent = to.toLocaleString("ko-KR"); }, dur + 100);
   }
 
-  // 누적 = 모든 릴리스의 Setup.exe 다운로드 합. 오늘 = 누적 − 오늘 0시(KST) 기준값(stats 브랜치, Actions 가 기록)
-  function showStats(list) {
-    var total = 0;
-    list.forEach(function (r) {
-      r.assets.forEach(function (a) { if (a.name === SETUP) total += a.download_count; });
-    });
-    var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
-    var box = document.getElementById("stats");
+  // ── 다운로드 수: 이 페이지 버튼을 누른 브라우저를 한 번씩만 센다 ──
+  // 카운터는 Abacus(무료, 로그인 없음). 누적 키 하나 + 날짜(KST)별 키.
+  var COUNTER = "https://abacus.jasoncameron.dev";
+  var NS = "hagah-antcraft159";
+  var SEEN = "hagah-downloaded"; // 이 브라우저가 이미 세어졌는지
+  var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+  var elTotal = document.getElementById("stat-total");
+  var elToday = document.getElementById("stat-today");
+  var shown = { total: 0, today: 0 };
 
-    countUp(document.getElementById("stat-total"), total);
-    box.classList.add("ready");
-
-    fetch("https://raw.githubusercontent.com/" + REPO + "/stats/stats.json", { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (s) {
-        var base = s.baselines && s.baselines[today];
-        if (typeof base === "number") countUp(document.getElementById("stat-today"), Math.max(0, total - base));
+  function getCount(key) {
+    return fetch(COUNTER + "/get/" + NS + "/" + key)
+      .then(function (r) {
+        if (r.status === 404) return { value: 0 }; // 아직 아무도 안 받은 날은 키가 없다
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
       })
-      .catch(function () {});
+      .then(function (j) { return j.value || 0; });
   }
 
+  Promise.all([getCount("total"), getCount("day-" + today)])
+    .then(function (v) {
+      shown.total = v[0]; shown.today = v[1];
+      countUp(elTotal, shown.total);
+      countUp(elToday, shown.today);
+      document.getElementById("stats").classList.add("ready");
+    })
+    .catch(function () {}); // 카운터가 죽어도 내려받기는 된다 — 숫자 칸만 안 보인다
+
+  function alreadyCounted() {
+    try { return localStorage.getItem(SEEN) === "1"; } catch (e) { return false; }
+  }
+  function markCounted() {
+    try { localStorage.setItem(SEEN, "1"); } catch (e) {}
+  }
+
+  dl.addEventListener("click", function () {
+    if (dl.dataset.asset !== "1" || alreadyCounted()) return;
+    markCounted();
+    ["total", "day-" + today].forEach(function (key) {
+      fetch(COUNTER + "/hit/" + NS + "/" + key, { keepalive: true }).catch(function () {});
+    });
+    elTotal.textContent = (++shown.total).toLocaleString("ko-KR");
+    elToday.textContent = (++shown.today).toLocaleString("ko-KR");
+  });
+
   // releases/latest 는 prerelease 를 건너뛰므로 목록에서 직접 고른다
-  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=100")
+  fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=6")
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (list) {
-      list = list.filter(function (r) { return !r.draft; });
-      showStats(list);
       var latest = list.find(function (r) {
         return !r.draft && r.assets.some(function (a) { return a.name === SETUP; });
       });
@@ -320,6 +343,7 @@
       var asset = latest.assets.find(function (a) { return a.name === SETUP; });
 
       dl.href = asset.browser_download_url;
+      dl.dataset.asset = "1";
       dl.removeAttribute("aria-disabled");
       label.textContent = "Windows용 내려받기";
       chips([
