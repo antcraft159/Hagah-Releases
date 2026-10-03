@@ -42,7 +42,45 @@
     line-height: 1.65;
     word-break: keep-all;
   }
-  main { width: 100%; max-width: 560px; padding: 56px 16px; text-align: center; }
+  main { position: relative; z-index: 1; width: 100%; max-width: 560px; padding: 72px 16px; text-align: center; }
+
+  /* ── 주변 장식: 줄 공책 결 · 금빛 액자 · 떠다니는 빛 ── */
+  .deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+  /* 가운데는 비우고 가장자리로 갈수록 보이는 가는 줄 */
+  .lines {
+    background: repeating-linear-gradient(180deg, transparent 0 33px, rgba(201, 154, 82, .14) 33px 34px);
+    -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 35%, #000 100%);
+            mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 35%, #000 100%);
+  }
+
+  /* 바깥 테두리 두 줄 */
+  .frame { inset: 22px; border: 1px solid rgba(201, 154, 82, .45); border-radius: 6px; }
+  .frame::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(201, 154, 82, .22); border-radius: 3px; }
+  .corner { position: absolute; width: 84px; height: 84px; color: var(--gold-deep); }
+  .corner.tl { top: -12px; left: -12px; }
+  .corner.tr { top: -12px; right: -12px; transform: scaleX(-1); }
+  .corner.bl { bottom: -12px; left: -12px; transform: scaleY(-1); }
+  .corner.br { bottom: -12px; right: -12px; transform: scale(-1, -1); }
+
+  /* 위아래 가운데 작은 장식 */
+  .mark { position: absolute; left: 50%; width: 120px; height: 18px; margin-left: -60px; background: linear-gradient(180deg, transparent 7px, var(--bg) 7px 11px, transparent 11px); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .mark.top { top: -9px; } .mark.bottom { bottom: -9px; }
+  .mark i { width: 5px; height: 5px; transform: rotate(45deg); background: var(--gold-deep); opacity: .5; }
+  .mark i:nth-child(2) { width: 8px; height: 8px; opacity: .9; }
+
+  /* 천천히 위로 떠오르는 금빛 티끌 */
+  .motes span {
+    position: absolute; bottom: -20px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 190, 120, .9), rgba(232, 190, 120, 0) 70%);
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0); opacity: 0; }
+    15%  { opacity: .9; }
+    85%  { opacity: .7; }
+    100% { transform: translate(var(--dx), -110vh); opacity: 0; }
+  }
 
   /* 위에서부터 차례로 떠오른다 */
   .rise { opacity: 0; transform: translateY(14px); animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
@@ -122,14 +160,32 @@
     .logo { width: 112px; height: 112px; border-radius: 26px; }
     h1 { font-size: 2.9rem; }
     .btn { width: 100%; min-width: 0; }
+    .frame { inset: 10px; }
+    .corner { width: 60px; height: 60px; }
+    .corner.tl, .corner.tr { top: -8px; } .corner.bl, .corner.br { bottom: -8px; }
+    .corner.tl, .corner.bl { left: -8px; } .corner.tr, .corner.br { right: -8px; }
+    main { padding: 64px 30px; }
+    .lines { -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 45%, transparent 45%, #000 100%);
+                     mask-image: radial-gradient(ellipse 90% 60% at 50% 45%, transparent 45%, #000 100%); }
   }
   @media (prefers-reduced-motion: reduce) {
     .rise { animation: none; opacity: 1; transform: none; }
     .btn { transition: none; }
+    .motes { display: none; }
   }
 </style>
 </head>
 <body>
+<div class="deco lines" aria-hidden="true"></div>
+<div class="deco motes" id="motes" aria-hidden="true"></div>
+<div class="deco frame" aria-hidden="true">
+  <svg class="corner tl" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 3l6 6-6 6-6-6z" fill="currentColor" stroke="none"/><path d="M14 44C14 26 26 14 44 14"/><path d="M20 34c0-8 6-14 14-14"/><circle cx="44" cy="14" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="44" r="1.8" fill="currentColor" stroke="none"/></svg>
+  <svg class="corner tr" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 3l6 6-6 6-6-6z" fill="currentColor" stroke="none"/><path d="M14 44C14 26 26 14 44 14"/><path d="M20 34c0-8 6-14 14-14"/><circle cx="44" cy="14" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="44" r="1.8" fill="currentColor" stroke="none"/></svg>
+  <svg class="corner bl" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 3l6 6-6 6-6-6z" fill="currentColor" stroke="none"/><path d="M14 44C14 26 26 14 44 14"/><path d="M20 34c0-8 6-14 14-14"/><circle cx="44" cy="14" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="44" r="1.8" fill="currentColor" stroke="none"/></svg>
+  <svg class="corner br" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 3l6 6-6 6-6-6z" fill="currentColor" stroke="none"/><path d="M14 44C14 26 26 14 44 14"/><path d="M20 34c0-8 6-14 14-14"/><circle cx="44" cy="14" r="1.8" fill="currentColor" stroke="none"/><circle cx="14" cy="44" r="1.8" fill="currentColor" stroke="none"/></svg>
+  <div class="mark top"><i></i><i></i><i></i></div>
+  <div class="mark bottom"><i></i><i></i><i></i></div>
+</div>
 <main>
   <div class="logo rise d1"><img src="logo.png" alt="Hagah 로고" width="132" height="132"></div>
   <h1 class="rise d2">HAGAH</h1>
@@ -147,6 +203,22 @@
 </main>
 
 <script>
+// 금빛 티끌을 흩뿌린다 — 위치·크기·속도는 매번 조금씩 다르게
+(function () {
+  var box = document.getElementById("motes");
+  var n = window.innerWidth < 480 ? 10 : 18;
+  for (var i = 0; i < n; i++) {
+    var s = document.createElement("span");
+    var size = 4 + Math.random() * 8;
+    s.style.left = (Math.random() * 100) + "%";
+    s.style.width = s.style.height = size + "px";
+    s.style.setProperty("--dx", (Math.random() * 80 - 40) + "px");
+    s.style.animationDuration = (14 + Math.random() * 16) + "s";
+    s.style.animationDelay = (-Math.random() * 30) + "s";
+    box.appendChild(s);
+  }
+})();
+
 (function () {
   var REPO = "antcraft159/Hagah-Releases";
   var SETUP = "Hagah-win-Setup.exe";
