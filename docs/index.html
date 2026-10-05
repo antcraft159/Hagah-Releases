@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hagah 내려받기</title>
-<meta name="description" content="설교 메모 전용 앱 Hagah 최신판 내려받기">
+<meta name="description" content="이사야 31:4 의 하가(묵상) — 말씀을 되새기는 설교 메모 앱 Hagah 내려받기">
 <link rel="icon" href="logo.png">
 <meta property="og:title" content="Hagah 내려받기">
 <meta property="og:description" content="설교 메모 전용 앱 Hagah 최신판 내려받기">
@@ -12,7 +12,7 @@
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Gowun+Batang&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Gowun+Batang&family=Noto+Sans+KR:wght@400;600&family=Noto+Serif+Hebrew:wght@500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
@@ -180,7 +180,155 @@
   .stat span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
   .stat.today b { color: var(--gold-deep); }
 
+  /* ── 근간 말씀: 이사야 31:4 와 '하가' 의 뜻 ── */
+  .verse {
+    position: relative;
+    margin: 34px 0 0;
+    padding: 34px 30px 28px;
+    background: linear-gradient(180deg, rgba(255, 252, 245, .92), rgba(250, 241, 225, .92));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 18px 40px -26px rgba(74, 44, 29, .45);
+    text-align: left;
+  }
+  .verse::before {
+    content: "\201C";
+    position: absolute; top: -6px; left: 18px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 5rem; line-height: 1; color: var(--gold-deep); opacity: .35;
+  }
+  .verse-ref {
+    display: inline-block; margin: 0 0 14px;
+    font-size: .78rem; letter-spacing: .14em; color: var(--gold-deep); font-weight: 600;
+  }
+  .verse blockquote {
+    margin: 0;
+    font-family: "Gowun Batang", serif;
+    font-size: 1.06rem; line-height: 1.95; color: var(--text);
+  }
+  .verse mark {
+    padding: 0 2px;
+    background: linear-gradient(180deg, transparent 58%, rgba(242, 210, 155, .75) 58%);
+    color: var(--brand); font-weight: 700;
+  }
+  /* 낱말 바로 뒤에 붙는 작은 히브리어 꼬리표 */
+  .verse .heb-tag {
+    display: inline-block; margin: 0 2px; padding: 0 7px;
+    border: 1px solid rgba(201, 154, 82, .5); border-radius: 999px;
+    font-family: "Noto Serif Hebrew", serif; font-weight: 500;
+    font-size: .8rem; line-height: 1.6; color: var(--gold-deep); vertical-align: 1px;
+  }
+
+  .meaning { margin: 30px 0 0; }
+  .meaning .word {
+    margin: 0;
+    font-family: "Gowun Batang", serif;
+    font-size: 1.5rem; color: var(--brand); letter-spacing: .04em;
+  }
+  .meaning .word .heb { font-family: "Noto Serif Hebrew", serif; font-weight: 500; color: var(--gold-deep); margin: 0 .25em; }
+  .meaning .word small { font-family: "Noto Sans KR", sans-serif; font-size: .8rem; color: var(--muted); letter-spacing: .06em; }
+  .meaning p { margin: 14px auto 0; max-width: 460px; color: var(--text); font-size: .98rem; }
+  .meaning p b { color: var(--brand); }
+
+  .pitch {
+    margin: 30px 0 0;
+    font-family: "Gowun Batang", serif;
+    font-size: 1.22rem; line-height: 1.7; color: var(--brand);
+  }
+
+  .features {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin: 26px 0 0; padding: 0; list-style: none;
+  }
+  .features li {
+    padding: 16px 10px 14px;
+    background: rgba(255, 255, 255, .78);
+    border: 1px solid var(--line); border-radius: 14px;
+    font-size: .84rem; color: var(--muted); line-height: 1.5;
+  }
+  .features li b { display: block; margin-bottom: 4px; font-size: .95rem; color: var(--brand); }
+  .features svg { display: block; width: 28px; height: 28px; margin: 0 auto 10px; color: var(--gold-deep); }
+
+  /* 실제 앱 화면 — 로고 바로 아래, 본문 폭(560)보다 넓게 펼친다 */
+  .shot {
+    width: min(1068px, calc(100vw - 32px));
+    margin: 36px 0 0 calc(50% - min(534px, 50vw - 16px));
+  }
+  .shot-frame {
+    border-radius: 14px; overflow: hidden;
+    background: #1b1b1f;
+    border: 1px solid rgba(201, 154, 82, .45);
+    box-shadow:
+      0 2px 4px rgba(51, 29, 18, .12),
+      0 28px 60px -24px rgba(51, 29, 18, .55),
+      0 50px 90px -50px rgba(201, 154, 82, .6);
+  }
+  .shot-bar { display: flex; align-items: center; gap: 7px; height: 30px; padding: 0 14px; background: #26262b; }
+  .shot-bar i { width: 9px; height: 9px; border-radius: 50%; background: #4a4a52; }
+  .shot-bar span { margin-left: 8px; font-size: .74rem; color: #a8a29a; letter-spacing: .08em; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption { margin-top: 14px; font-size: .86rem; color: var(--muted); }
+
+  /* 설치할 때 뜨는 Windows 경고 안내 */
+  .install-note {
+    display: flex; gap: 12px; align-items: flex-start;
+    max-width: 420px; margin: 22px auto 0; padding: 14px 16px;
+    background: rgba(255, 255, 255, .78);
+    border: 1px dashed rgba(201, 154, 82, .6); border-radius: 14px;
+    text-align: left; font-size: .84rem; color: var(--muted); line-height: 1.6;
+  }
+  .install-note svg { flex: none; width: 22px; height: 22px; margin-top: 1px; color: var(--gold-deep); }
+  .install-note b { color: var(--brand); }
+  .install-note kbd {
+    font-family: inherit; font-size: .8rem; padding: 1px 7px;
+    border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--brand); white-space: nowrap;
+  }
+
+  .cta-lead { margin: 0 0 18px; font-size: .9rem; color: var(--muted); letter-spacing: .06em; }
+
+  /* ── 넓은 화면: 두 단으로 펼쳐 가로 여백을 쓴다 ── */
+  @media (min-width: 1024px) {
+    main { max-width: 1180px; padding: 84px 56px; }
+    .row { display: grid; column-gap: 56px; text-align: left; }
+
+    /* 위: 말씀 카드 | 하가의 뜻 */
+    .row-a { grid-template-columns: 1.15fr 1fr; align-items: center; margin-top: 46px; }
+    .row-a .verse { margin: 0; }
+    .meaning { margin: 0; }
+    .meaning p { margin-left: 0; max-width: none; }
+    .meaning .word { font-size: 1.9rem; }
+    .pitch { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+
+    .shot { width: 100%; margin: 44px 0 0; }
+
+    /* 아래: 기능 | 내려받기 */
+    .row-b { grid-template-columns: 1fr 1fr; align-items: center; margin-top: 70px; }
+    .row-b .features { grid-template-columns: 1fr; margin: 0; gap: 10px; }
+
+    .cta .ornament { display: none; }
+    .cta .btn { width: 100%; min-width: 0; }
+    .cta-lead { margin-bottom: 12px; }
+    .meta { justify-content: flex-start; gap: 6px; font-size: .8rem; }
+    .meta li { padding: 3px 10px; }
+    .install-note { max-width: none; margin: 18px 0 0; }
+  }
+
+  /* 기능 카드가 한 줄씩 쌓일 때(휴대폰 · 넓은 화면 오른쪽 단)는 아이콘을 왼쪽에 둔 가로 줄로 */
+  @media (max-width: 480px), (min-width: 1024px) {
+    .features li {
+      display: grid; grid-template-columns: 28px 1fr; column-gap: 14px; align-items: center;
+      padding: 14px 18px; text-align: left;
+    }
+    .features li svg { grid-row: span 2; margin: 0; }
+    .features li b { margin: 0; }
+    .features li br { display: none; }
+  }
+
   @media (max-width: 480px) {
+    .verse { padding: 30px 20px 22px; }
+    .verse blockquote { font-size: 1rem; }
+    .features { grid-template-columns: 1fr; }
+    .pitch { font-size: 1.1rem; }
     .logo { width: 112px; height: 112px; border-radius: 26px; }
     h1 { font-size: 2.9rem; }
     .btn { width: 100%; min-width: 0; }
@@ -216,15 +364,82 @@
   <h1 class="rise d2">HAGAH</h1>
   <p class="tagline rise d2">설교 메모 전용 앱</p>
 
-  <div class="ornament rise d3" aria-hidden="true"><span></span></div>
+  <figure class="shot rise d2">
+    <div class="shot-frame">
+      <div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i><span>HAGAH</span></div>
+      <a href="screenshot.jpg" target="_blank" rel="noopener"><img src="screenshot.jpg" alt="Hagah 편집기 화면 — 왼쪽에 설교 메모 목록, 오른쪽에 시편 1편 설교 메모" width="1800" height="871"></a>
+    </div>
+    <figcaption>실제 앱 화면 · 구절을 치면 개역한글 본문이 바로 들어옵니다</figcaption>
+  </figure>
 
-  <div class="rise d4">
+  <section class="row row-a rise d3" aria-label="Hagah 이름의 뜻">
+    <figure class="verse">
+      <figcaption class="verse-ref">이사야 31:4 · 개역한글</figcaption>
+      <blockquote>
+        여호와께서 이같이 내게 이르시되 큰 사자나 젊은 사자가 그 식물을 움키고
+        <span style="white-space:nowrap"><mark>으르렁거릴</mark><span class="heb-tag" lang="he">הָגָה</span></span> 때에
+        그것을 치려고 여러 목자가 불려 왔다 할지라도 그것이 그들의 소리로 인하여 놀라지 아니할 것이요
+        그들의 떠듦을 인하여 굴복지 아니할 것이라 이와 같이 나 만군의 여호와가 강림하여
+        시온 산과 그 영 위에서 싸울 것이며
+      </blockquote>
+    </figure>
+
+    <div class="meaning">
+      <p class="word">하가<span class="heb" lang="he">הָגָה</span><small>HAGAH</small></p>
+      <p>
+        사자는 먹이를 움킨 채 낮게 으르렁거립니다.
+        목자들이 몰려와 소리쳐도 놀라지 않고, 떠들어도 물러서지 않습니다.
+        이사야는 그 낮고 깊은 울림을 <b>하가</b>라 불렀습니다.
+      </p>
+      <p>
+        성경은 같은 낱말로 <b>묵상</b>을 말합니다.
+        히브리 사람의 묵상은 조용히 생각을 비우는 일이 아니라,
+        받은 말씀을 입에 물고 <b>낮은 소리로 되뇌고 또 되뇌는 일</b>이었습니다.
+        사자가 먹이를 놓지 않듯, 말씀을 붙들고 놓지 않는 것입니다.
+      </p>
+      <p>
+        세상의 소리가 아무리 커도 빼앗기지 않는 한 구절,
+        그것을 곱씹어 내 것으로 삼는 일이 하가입니다.
+      </p>
+      <p class="pitch">받은 말씀을 놓지 않고<br>되새기고 쌓아 가는 곳, Hagah</p>
+    </div>
+  </section>
+
+  <section class="row row-b rise d4" aria-label="기능과 내려받기">
+    <ul class="features">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5h10l4 4V20.5H5z"/><path d="M15 3.5v4h4"/><path d="M8.5 11h7M8.5 14h7M8.5 17h4.5"/></svg>
+        <b>설교 메모</b>날짜별로 적고 <br>폴더로 정리
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg>
+        <b>말씀 넣기</b>구절을 치면 <br>본문이 바로
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>
+        <b>말씀 연결</b>같은 구절을 쓴 <br>예전 메모까지
+      </li>
+    </ul>
+
+    <div class="cta">
+    <div class="ornament" aria-hidden="true"><span></span></div>
+    <p class="cta-lead">지금 시작해 보세요</p>
     <a id="dl" class="btn" href="https://github.com/antcraft159/Hagah-Releases/releases" aria-disabled="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
       <span id="dl-label">최신판 확인 중…</span>
     </a>
     <ul id="meta" class="meta"><li class="plain">Windows 10 · 11</li></ul>
-  </div>
+
+    <p class="install-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8.2 7.5 9.5 4.3-1.3 7.5-5 7.5-9.5V6z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".6" fill="currentColor"/></svg>
+      <span>
+        설치할 때 <b>‘Windows의 PC 보호’</b> 창이 뜨면
+        <span style="white-space:nowrap"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>을 눌러 주세요.
+        새로 나온 앱이라 뜨는 안내이니 안심하셔도 됩니다.
+      </span>
+    </p>
+    </div>
+  </section>
 
   <div id="stats" class="stats" aria-label="내려받은 수">
     <div class="stat"><b id="stat-total">–</b><span>누적</span></div>
