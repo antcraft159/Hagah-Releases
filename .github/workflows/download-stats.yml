@@ -31,7 +31,7 @@ jobs:
 
           TOTAL=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/$REPO/releases?per_page=100" \
-            | jq '[.[].assets[] | select(.name == "Hagah-win-Setup.exe") | .download_count] | add // 0')
+            | jq '[.[].assets[] | select(.name == "Hagah-win-Setup.exe" or .name == "Hagah-osx-arm64.dmg" or .name == "Hagah-osx-x64.dmg") | .download_count] | add // 0')
           [[ "$TOTAL" =~ ^[0-9]+$ ]] || { echo "누적 수를 못 읽었다: $TOTAL"; exit 1; }
 
           jq --arg d "$TODAY" --argjson t "$TOTAL" '.baselines[$d] = $t' stats.json > stats.tmp
