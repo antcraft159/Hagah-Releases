@@ -336,8 +336,11 @@
     display: block; margin-top: 6px; padding: 8px 10px; border-radius: 8px;
     background: #2b1d14; color: var(--gold);
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .78rem;
-    overflow-x: auto; white-space: nowrap; user-select: all;
+    white-space: normal; overflow-wrap: anywhere; user-select: all;
   }
+  /* 단추 이름 사슬(A → B → C)은 한 줄로 두되, 좁은 화면에서는 화살표 자리에서 꺾여 카드 밖으로 넘치지 않게 한다 */
+  .kbd-path { white-space: nowrap; }
+  @media (max-width: 640px) { .kbd-path { white-space: normal; } }
 
   /* ── 넓은 화면: 두 단으로 펼쳐 가로 여백을 쓴다 ── */
   @media (min-width: 1024px) {
@@ -510,7 +513,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8.2 7.5 9.5 4.3-1.3 7.5-5 7.5-9.5V6z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".6" fill="currentColor"/></svg>
         <span>
           설치할 때 <b>‘Windows의 PC 보호’</b> 창이 뜨면
-          <span style="white-space:nowrap"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>을 눌러 주세요.
+          <span class="kbd-path"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>을 눌러 주세요.
           새로 나온 앱이라 뜨는 안내이니 안심하셔도 됩니다.
         </span>
       </p>
@@ -526,7 +529,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>
         <span>
           <b>Apple M 시리즈 칩</b>(M1 · M2 · M3 · M4)용입니다.
-          내 Mac의 칩은 <span style="white-space:nowrap"><kbd>Apple 메뉴</kbd> → <kbd>이 Mac에 관하여</kbd></span>에서 확인할 수 있습니다.
+          내 Mac의 칩은 <span class="kbd-path"><kbd>Apple 메뉴</kbd> → <kbd>이 Mac에 관하여</kbd></span>에서 확인할 수 있습니다.
         </span>
       </p>
     </div>
@@ -541,7 +544,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>
         <span>
           <b>Intel 칩</b> Mac용입니다.
-          내 Mac의 칩은 <span style="white-space:nowrap"><kbd>Apple 메뉴</kbd> → <kbd>이 Mac에 관하여</kbd></span>에서 확인할 수 있습니다.
+          내 Mac의 칩은 <span class="kbd-path"><kbd>Apple 메뉴</kbd> → <kbd>이 Mac에 관하여</kbd></span>에서 확인할 수 있습니다.
         </span>
       </p>
     </div>
@@ -557,14 +560,14 @@
         <li>내려받은 <b>Hagah 파일(.dmg)</b>을 열고, 나온 창에서 <b>Hagah</b> 아이콘을 <b>응용 프로그램</b> 폴더로 끌어다 놓습니다.</li>
         <li><b>응용 프로그램</b> 폴더에서 Hagah를 엽니다. ‘확인할 수 없습니다’ 창이 뜨면 <kbd>완료</kbd>를 누릅니다.</li>
         <li>
-          <span style="white-space:nowrap"><kbd>Apple 메뉴</kbd> → <kbd>시스템 설정</kbd> → <kbd>개인정보 보호 및 보안</kbd></span>으로 가서 아래로 내립니다.
+          <span class="kbd-path"><kbd>Apple 메뉴</kbd> → <kbd>시스템 설정</kbd> → <kbd>개인정보 보호 및 보안</kbd></span>으로 가서 아래로 내립니다.
         </li>
         <li><b>‘Hagah’이(가) 차단되었습니다</b> 옆의 <kbd>그래도 열기</kbd>를 누르고, Mac 암호나 Touch ID로 확인합니다.</li>
         <li>다시 묻는 창에서 <kbd>열기</kbd>를 누르면 끝입니다.</li>
       </ol>
       <p class="guide-tip">
         macOS 12(Monterey)에서는 3번이
-        <span style="white-space:nowrap"><kbd>시스템 환경설정</kbd> → <kbd>보안 및 개인 정보 보호</kbd> → <kbd>일반</kbd></span>이고,
+        <span class="kbd-path"><kbd>시스템 환경설정</kbd> → <kbd>보안 및 개인 정보 보호</kbd> → <kbd>일반</kbd></span>이고,
         단추 이름이 <kbd>확인 없이 열기</kbd>입니다.
       </p>
       <p class="guide-tip">
