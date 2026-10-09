@@ -251,10 +251,12 @@
   .features li b { display: block; margin-bottom: 4px; font-size: .95rem; color: var(--brand); }
   .features svg { display: block; width: 28px; height: 28px; margin: 0 auto 10px; color: var(--gold-deep); }
 
-  /* 실제 앱 화면 — 로고 바로 아래, 본문 폭(560)보다 넓게 펼친다 */
+  /* 실제 앱 화면 — 로고 바로 아래, 본문 폭(560)보다 넓게 펼친다.
+     금빛 테두리(양옆 22px + 안쪽 선 6px) 안에서 멈춘다. 100vw 는 세로 스크롤바까지 쳐서 실제 여백은 스크롤바 반 폭만큼 좁다 */
+  :root { --wide-gutter: 48px; }
   .shot {
-    width: min(1068px, calc(100vw - 32px));
-    margin: 36px 0 0 calc(50% - min(534px, 50vw - 16px));
+    width: min(1068px, calc(100vw - var(--wide-gutter) * 2));
+    margin: 36px 0 0 calc(50% - min(534px, 50vw - var(--wide-gutter)));
   }
   .shot-frame {
     border-radius: 14px; overflow: hidden;
@@ -270,6 +272,80 @@
   .shot-bar span { margin-left: 8px; font-size: .74rem; color: #a8a29a; letter-spacing: .08em; }
   .shot img { display: block; width: 100%; height: auto; }
   .shot figcaption { margin-top: 14px; font-size: .86rem; color: var(--muted); }
+
+  /* ── 기능 둘러보기: 그림 + 설명 카드를 가로로 넘긴다. 폭은 실제 앱 화면과 같게 펼친다 ── */
+  .tour {
+    width: min(1068px, calc(100vw - var(--wide-gutter) * 2));
+    margin: 64px 0 0 calc(50% - min(534px, 50vw - var(--wide-gutter)));
+    text-align: left;
+  }
+  .tour-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin: 0 0 18px; }
+  .tour-title { margin: 0; font-family: "Gowun Batang", serif; font-weight: 400; font-size: 1.4rem; color: var(--brand); letter-spacing: .04em; }
+  .tour-title small { display: block; margin-bottom: 2px; font-family: "Noto Sans KR", sans-serif; font-size: .74rem; font-weight: 600; letter-spacing: .16em; color: var(--gold-deep); }
+  .tour-nav { display: flex; gap: 8px; flex-shrink: 0; }
+  .tour-nav button {
+    width: 42px; height: 42px; padding: 0; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, .85); border: 1px solid var(--line); color: var(--brand);
+    cursor: pointer; transition: background .15s ease, border-color .15s ease, opacity .15s ease;
+  }
+  .tour-nav button:hover:not(:disabled) { background: #fff; border-color: var(--gold-deep); }
+  .tour-nav button:disabled { opacity: .35; cursor: default; }
+  .tour-nav button:focus-visible, .tour-dots button:focus-visible, .tour-track:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+  .tour-nav svg { width: 18px; height: 18px; }
+
+  .tour-track {
+    display: flex; gap: 18px;
+    margin: 0; padding: 4px 2px 26px; list-style: none;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    overscroll-behavior-x: contain; scrollbar-width: none;
+  }
+  .tour-track::-webkit-scrollbar { display: none; }
+  .tour-card {
+    flex: 0 0 min(760px, 86%);
+    scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    background: rgba(255, 255, 255, .9);
+    border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+    box-shadow: 0 18px 40px -28px rgba(74, 44, 29, .5);
+  }
+  /* 그림마다 비율이 달라 같은 높이의 어두운 판 위에 가운데로 올린다 */
+  .tour-pic {
+    position: relative; margin: 0; aspect-ratio: 16 / 9;
+    background: #131316;
+    border-bottom: 1px solid rgba(201, 154, 82, .35);
+  }
+  .tour-pic img { position: absolute; inset: 18px; width: calc(100% - 36px); height: calc(100% - 36px); object-fit: contain; }
+  .tour-text { padding: 22px 26px 26px; }
+  .tour-step { font-size: .74rem; font-weight: 600; letter-spacing: .14em; color: var(--gold-deep); }
+  .tour-text h3 { margin: 6px 0 10px; font-family: "Gowun Batang", serif; font-weight: 400; font-size: 1.24rem; line-height: 1.45; color: var(--brand); }
+  .tour-text p { margin: 0 0 8px; font-size: .95rem; color: var(--text); }
+  .tour-text p:last-child { margin-bottom: 0; }
+  .tour-text .note { color: var(--muted); font-size: .86rem; }
+  .tour-text code {
+    padding: 1px 7px; border-radius: 6px;
+    background: var(--glow); border: 1px solid var(--line);
+    font-family: inherit; font-size: .9em; color: var(--brand);
+  }
+
+  .tour-dots { display: flex; justify-content: center; gap: 4px; margin: 0; }
+  .tour-dots button {
+    width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .tour-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--line); transition: width .2s ease, background .2s ease; }
+  .tour-dots button[aria-current="true"]::before { width: 22px; background: var(--gold-deep); }
+
+  @media (max-width: 480px) {
+    .tour { margin-top: 48px; }
+    .tour-nav { display: none; }
+    .tour-card { flex-basis: 88%; }
+    .tour-pic img { inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+    .tour-text { padding: 18px 18px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tour-track { scroll-behavior: auto; }
+  }
 
   /* 설치할 때 뜨는 Windows 경고 안내 */
   .install-note {
@@ -395,6 +471,7 @@
     .tab { flex: 1; padding: 8px 6px; font-size: .8rem; white-space: normal; line-height: 1.3; }
     .tab svg { display: none; }
     .frame { inset: 10px; }
+    :root { --wide-gutter: 22px; } /* 테두리가 10px 로 붙으니 넓은 그림 여백도 줄인다 */
     .corner { width: 60px; height: 60px; }
     .corner.tl, .corner.tr { top: -8px; } .corner.bl, .corner.br { bottom: -8px; }
     .corner.tl, .corner.bl { left: -8px; } .corner.tr, .corner.br { right: -8px; }
@@ -465,6 +542,72 @@
       </p>
       <p class="pitch">받은 말씀을 놓지 않고<br>되새기고 쌓아 가는 곳, Hagah</p>
     </div>
+  </section>
+
+  <section class="tour" id="tour" aria-roledescription="carousel" aria-labelledby="tour-title">
+    <div class="tour-head">
+      <h2 class="tour-title" id="tour-title"><small>FEATURES</small>Hagah 둘러보기</h2>
+      <div class="tour-nav">
+        <button type="button" id="tour-prev" aria-label="이전 기능">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+        </button>
+        <button type="button" id="tour-next" aria-label="다음 기능">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <ul class="tour-track" id="tour-track" tabindex="0" aria-label="기능 카드 — 좌우로 넘겨 보세요">
+      <li class="tour-card" aria-roledescription="slide" aria-label="1 / 5">
+        <figure class="tour-pic"><img src="features/verse-insert-before.png" alt="편집기에 제목과 '엡 2:8' 까지 쳐 둔 화면" width="1368" height="589" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">말씀 넣기 · 1</span>
+          <h3>장절만 치세요</h3>
+          <p>설교 중에 "에베소서 2장 8절"이 들리면, 성경을 찾지 말고 <code>엡 2:8</code> 이라고만 치세요.</p>
+          <p>책 이름은 줄여 써도 됩니다. 요, 롬, 엡처럼 익숙한 약칭을 그대로 알아듣습니다.</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="2 / 5">
+        <figure class="tour-pic"><img src="features/verse-insert-after.png" alt="스페이스를 누르자 에베소서 2:8 본문이 통째로 들어온 화면" width="1368" height="589" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">말씀 넣기 · 2</span>
+          <h3>스페이스 한 번이면 말씀이 들어옵니다</h3>
+          <p>장절을 치고 스페이스를 누르면 구절 본문이 통째로 들어옵니다. 성경을 넘기며 옮겨 적는 사이에 설교를 놓칠 일이 없습니다.</p>
+          <p><code>요 3:16-18</code> 처럼 여러 절도 한 번에 들어옵니다.</p>
+          <p class="note">성경 본문: 개역한글판 · 출처: 대한성서공회</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="3 / 5">
+        <figure class="tour-pic"><img src="features/verse-link.png" alt="로마서 8:28 에 마우스를 올리자 같은 구절이 쓰인 '요셉의 눈물' 메모가 팝업으로 뜬 화면" width="1368" height="821" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">말씀 연결</span>
+          <h3>같은 말씀을 들었던 날을 이어 줍니다</h3>
+          <p>메모에 넣은 구절에 마우스를 올려 보세요. 그 구절이 쓰인 다른 메모가 날짜와 함께 나타납니다. 오늘 메모의 로마서 8:28이 지난달 「요셉의 눈물」 설교와 나란히 놓이고, 누르면 바로 그 메모로 갑니다.</p>
+          <p>메모가 쌓일수록, 따로 들었던 설교들이 한 말씀 안에서 서로 이어집니다.</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="4 / 5">
+        <figure class="tour-pic"><img src="features/schedule.png" alt="화면 위 '곧 설교가 있습니다' 알림 띠와 설교 일정 날짜 · 시각 설정" width="1404" height="274" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">설교 일정 알림</span>
+          <h3>설교 1시간 전에 먼저 알려 드립니다</h3>
+          <p>메모 위의 '설교 일정'을 켜고 날짜와 시간을 정해 두세요. 시간이 다가오면 화면 위에 "곧 설교가 있습니다" 알림이 뜹니다. '메모 열기'를 누르면 준비해 둔 그 메모가 바로 열립니다.</p>
+          <p>준비한 메모를 찾느라 허둥대지 않아도 됩니다.</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="5 / 5">
+        <figure class="tour-pic"><img src="features/inquiry.png" alt="앱 안의 문의하기 폼 — 분류 · 내용 · 께사모 아이디" width="869" height="755" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">문의하기</span>
+          <h3>개발자가 직접 읽습니다</h3>
+          <p>불편한 점, 바라는 기능, 궁금한 점을 앱 안에서 바로 보내 주세요. 건의나 오류 같은 분류를 고르고 내용을 적으면 끝입니다.</p>
+          <p>께사모 아이디를 남겨 주시면 그리로 답을 드리고, 비워 두셔도 문의는 그대로 전달됩니다.</p>
+          <p class="note">여러분의 한마디가 다음 업데이트가 됩니다.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="tour-dots" id="tour-dots" aria-label="카드 고르기"></div>
   </section>
 
   <section class="row row-b rise d4" aria-label="기능과 내려받기">
@@ -586,6 +729,65 @@
 </main>
 
 <script>
+// 기능 둘러보기 — 화살표 · 점으로 넘기고, 손으로 밀어 넘겨도 지금 카드를 따라간다
+(function () {
+  var track = document.getElementById("tour-track");
+  if (!track) return;
+  var cards = Array.prototype.slice.call(track.children);
+  var prev = document.getElementById("tour-prev");
+  var next = document.getElementById("tour-next");
+  var dotsBox = document.getElementById("tour-dots");
+  var current = -1;
+
+  var dots = cards.map(function (card, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", (i + 1) + "번째 카드 — " + card.querySelector("h3").textContent);
+    b.addEventListener("click", function () { go(i); });
+    dotsBox.appendChild(b);
+    return b;
+  });
+
+  function go(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    track.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft });
+  }
+
+  // 왼쪽 끝에 가장 가까운 카드가 지금 카드. 맨 끝까지 밀었으면 마지막 카드로 본다
+  function sync() {
+    var x = track.scrollLeft, best = 0;
+    if (x + track.clientWidth >= track.scrollWidth - 4) {
+      best = cards.length - 1;
+    } else {
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft - cards[0].offsetLeft - x);
+        if (d < Math.abs(cards[best].offsetLeft - cards[0].offsetLeft - x)) best = i;
+      });
+    }
+    if (best === current) return;
+    current = best;
+    dots.forEach(function (d, i) { d.setAttribute("aria-current", i === best ? "true" : "false"); });
+    prev.disabled = best === 0;
+    next.disabled = best === cards.length - 1;
+  }
+
+  prev.addEventListener("click", function () { go(current - 1); });
+  next.addEventListener("click", function () { go(current + 1); });
+  track.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(current - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); go(current + 1); }
+  });
+
+  var pending = false;
+  track.addEventListener("scroll", function () {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; sync(); });
+  }, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+})();
+
 // 금빛 티끌을 흩뿌린다 — 위치·크기·속도는 매번 조금씩 다르게
 (function () {
   var box = document.getElementById("motes");
