@@ -410,8 +410,10 @@
   .guide h2 { margin: 0 0 6px; font-family: "Gowun Batang", serif; font-size: 1.05rem; color: var(--brand); }
   .guide b { color: var(--brand); }
   .guide-lead { margin: 0 0 10px; color: var(--muted); }
-  .guide ol { margin: 0; padding-left: 1.3em; }
+  .guide ol, .guide ul { margin: 0; padding-left: 1.3em; }
   .guide li + li { margin-top: 6px; }
+  .guide-danger { margin: 0 0 12px; color: var(--warn); font-weight: 600; }
+  .guide-sub { margin: 14px 0 6px; font-weight: 600; color: var(--brand); }
   .guide li::marker { color: var(--gold-deep); font-weight: 600; }
   .guide kbd {
     font-family: inherit; font-size: .8rem; padding: 1px 7px;
@@ -714,12 +716,45 @@
             <kbd>복원</kbd>하고 <kbd>예외</kbd>로 둔 뒤 다시 설치해 주세요.
           </span>
           <span class="install-sub">
-            <b>‘스마트 앱 컨트롤’</b>이 막았다고 나오면 위 단추가 없고,
-            <kbd>Windows 보안</kbd> → <kbd>앱 및 브라우저 컨트롤</kbd> → <kbd>스마트 앱 컨트롤 설정</kbd>에서
-            <kbd>끔</kbd>으로 바꿔야 설치됩니다. 다만 PC에 따라 한 번 끄면 다시 켜기 어려울 수 있으니 신중히 정해 주세요.
+            <b>‘스마트 앱 컨트롤’</b>이 막았다고 나오면 위 단추가 없습니다. 아래 안내를 봐 주세요.
           </span>
         </div>
       </div>
+
+      <!-- 스마트 앱 컨트롤이 켜진 PC 에선 서명 없는 앱을 '실행' 단추 없이 막는다 -->
+      <section class="guide" aria-labelledby="sac-guide-title">
+        <h2 id="sac-guide-title">Hagah가 실행되지 않을 때 (스마트 앱 컨트롤)</h2>
+        <p class="guide-lead">
+          <b>스마트 앱 컨트롤</b>은 Windows 11에 들어 있는 보안 기능으로,
+          이름이 알려지지 않았거나 서명이 없는 앱을 실행 전에 미리 막습니다.
+        </p>
+        <p class="guide-danger">
+          Hagah는 개인이 만든 무료 앱이라 서명이 없어서, 이 기능이 켜져 있으면 실행되지 않습니다.
+        </p>
+        <p class="guide-sub">꺼도 괜찮을까요?</p>
+        <ul>
+          <li>꺼도 바이러스에 걸리거나 컴퓨터가 느려지지 않습니다.</li>
+          <li>Windows 백신(Defender)과 방화벽은 그대로 켜져 있어 PC를 계속 지켜 줍니다.</li>
+          <li>실제로 대부분의 Windows PC는 이 기능이 꺼진 상태로 쓰이고 있습니다.</li>
+          <li>다만 한 번 끄면 PC에 따라 다시 켜기 어려울 수 있습니다.</li>
+          <li>끈 뒤에도 출처가 불분명한 파일은 열지 않는 것이 좋습니다.</li>
+        </ul>
+        <p class="guide-sub">끌지 말지는 사용자 선택입니다.</p>
+        <p class="guide-lead">위 내용을 읽어 보시고 직접 판단해 주세요. 끄지 않으면 이 PC에서는 Hagah를 사용할 수 없습니다.</p>
+        <p class="guide-sub">끄는 방법</p>
+        <ol>
+          <li>시작 단추를 누르고 <kbd>설정</kbd>을 엽니다.</li>
+          <li><kbd>개인 정보 및 보안</kbd>으로 들어가 <kbd>Windows 보안</kbd>을 누릅니다.</li>
+          <li><kbd>앱 및 브라우저 컨트롤</kbd>을 누릅니다.</li>
+          <li><kbd>스마트 앱 컨트롤 설정</kbd>을 누릅니다.</li>
+          <li><kbd>끄기</kbd>를 고릅니다.</li>
+        </ol>
+        <p class="guide-tip">시작 메뉴 검색창에 <b>“스마트 앱 컨트롤”</b>을 입력하면 바로 들어갈 수도 있습니다.</p>
+        <p class="guide-tip">
+          끈 다음 Hagah를 다시 실행하세요. 파란색 <b>‘Windows의 PC 보호’</b> 창이 뜨면
+          <span class="kbd-path"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>을 누르면 됩니다.
+        </p>
+      </section>
     </div>
 
     <div class="panel" id="panel-mac-arm" role="tabpanel" aria-labelledby="tab-mac-arm" hidden>
