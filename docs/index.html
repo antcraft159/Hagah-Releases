@@ -366,7 +366,8 @@
   .install-note ol { margin: 8px 0 0; padding-left: 1.3em; }
   .install-note li + li { margin-top: 4px; }
   .install-note li::marker { color: var(--gold-deep); font-weight: 600; }
-  /* 드문 경우(스마트 앱 컨트롤) — 본문 아래 작게 */
+  /* 드문 경우(백신 · 스마트 앱 컨트롤) — 본문 아래 작게. 둘째부터는 구분선 없이 붙인다 */
+  .install-sub + .install-sub { margin-top: 8px; padding-top: 0; border-top: 0; }
   .install-sub {
     display: block; margin-top: 10px; padding-top: 8px;
     border-top: 1px dashed var(--line); font-size: .78rem;
@@ -708,6 +709,10 @@
               <span class="kbd-path"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>
             </li>
           </ol>
+          <span class="install-sub">
+            <b>백신</b>(V3 · 알약 등)이 설치 파일을 지우거나 막으면, 백신의 격리 목록에서 Hagah 파일을
+            <kbd>복원</kbd>하고 <kbd>예외</kbd>로 둔 뒤 다시 설치해 주세요.
+          </span>
           <span class="install-sub">
             <b>‘스마트 앱 컨트롤’</b>이 막았다고 나오면 위 단추가 없고,
             <kbd>Windows 보안</kbd> → <kbd>앱 및 브라우저 컨트롤</kbd> → <kbd>스마트 앱 컨트롤 설정</kbd>에서
