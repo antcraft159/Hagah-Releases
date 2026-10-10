@@ -26,6 +26,7 @@
     --brand-deep: #331d12;
     --gold: #f2d29b;
     --gold-deep: #c99a52;
+    --warn: #c0392b;
   }
 
   * { box-sizing: border-box; }
@@ -317,6 +318,7 @@
   }
   .tour-pic img { position: absolute; inset: 18px; width: calc(100% - 36px); height: calc(100% - 36px); object-fit: contain; }
   .tour-text { padding: 22px 26px 26px; }
+  .tour-text .warn { color: var(--warn); }
   .tour-step { font-size: .74rem; font-weight: 600; letter-spacing: .14em; color: var(--gold-deep); }
   .tour-text h3 { margin: 6px 0 10px; font-family: "Gowun Batang", serif; font-weight: 400; font-size: 1.24rem; line-height: 1.45; color: var(--brand); }
   .tour-text p { margin: 0 0 8px; font-size: .95rem; color: var(--text); }
@@ -566,7 +568,7 @@
     </div>
 
     <ul class="tour-track" id="tour-track" tabindex="0" aria-label="기능 카드 — 좌우로 넘겨 보세요">
-      <li class="tour-card" aria-roledescription="slide" aria-label="1 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="1 / 8">
         <figure class="tour-pic"><img src="features/verse-insert-before.png" alt="편집기에 제목과 '엡 2:8' 까지 쳐 둔 화면" width="1368" height="589" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">말씀 넣기 · 1</span>
@@ -575,7 +577,7 @@
           <p>책 이름은 줄여 써도 됩니다. 요, 롬, 엡처럼 익숙한 약칭을 그대로 알아듣습니다.</p>
         </div>
       </li>
-      <li class="tour-card" aria-roledescription="slide" aria-label="2 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="2 / 8">
         <figure class="tour-pic"><img src="features/verse-insert-after.png" alt="스페이스를 누르자 에베소서 2:8 본문이 통째로 들어온 화면" width="1368" height="589" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">말씀 넣기 · 2</span>
@@ -585,7 +587,7 @@
           <p class="note">성경 본문: 개역한글판 · 출처: 대한성서공회</p>
         </div>
       </li>
-      <li class="tour-card" aria-roledescription="slide" aria-label="3 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="3 / 8">
         <figure class="tour-pic"><img src="features/verse-search.png" alt="말씀 찾기 창에 '오래 참고' 를 치자 고린도전서 13:4 와 베드로전서 3:20 이 낱말을 칠한 채 나온 화면" width="776" height="470" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">말씀 찾기</span>
@@ -595,7 +597,7 @@
           <p class="note">낱말 여러 개를 띄어 치면 모두 들어 있는 구절만 찾습니다 · 단축키 Ctrl+Shift+F</p>
         </div>
       </li>
-      <li class="tour-card" aria-roledescription="slide" aria-label="4 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="4 / 8">
         <figure class="tour-pic"><img src="features/verse-link.png" alt="로마서 8:28 에 마우스를 올리자 같은 구절이 쓰인 '요셉의 눈물' 메모가 팝업으로 뜬 화면" width="1368" height="821" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">말씀 연결</span>
@@ -604,7 +606,17 @@
           <p>메모가 쌓일수록, 따로 들었던 설교들이 한 말씀 안에서 서로 이어집니다.</p>
         </div>
       </li>
-      <li class="tour-card" aria-roledescription="slide" aria-label="5 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="5 / 8">
+        <figure class="tour-pic"><img src="features/print.png" alt="인쇄 미리보기 창 — A4 한 장에 제목 · 날짜와 시편 1편 설교 메모가 서식 그대로 놓인 화면" width="1350" height="960" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">인쇄 · 내보내기</span>
+          <h3>종이로 들고 나가세요</h3>
+          <p>위쪽 프린터 단추를 누르면 인쇄 미리보기가 열립니다. 굵게 · 색 · 제목이 화면 그대로 A4에 놓이고, 맨 위에는 설교 제목과 날짜가 붙습니다.</p>
+          <p>두 단으로 나누기, 한 장에 두 쪽, 양면 인쇄도 고를 수 있습니다. 종이 대신 PDF나 JPG로 내보내 다른 사람과 나눌 수도 있습니다.</p>
+          <p class="note">단축키 Ctrl+P</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="6 / 8">
         <figure class="tour-pic"><img src="features/schedule.png" alt="화면 위 '곧 설교가 있습니다' 알림 띠와 설교 일정 날짜 · 시각 설정" width="1404" height="274" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">설교 일정 알림</span>
@@ -613,7 +625,18 @@
           <p>준비한 메모를 찾느라 허둥대지 않아도 됩니다.</p>
         </div>
       </li>
-      <li class="tour-card" aria-roledescription="slide" aria-label="6 / 6">
+      <li class="tour-card" aria-roledescription="slide" aria-label="7 / 8">
+        <figure class="tour-pic"><img src="features/backup.png" alt="설정 창의 백업 / 복원 칸 — 백업하기 · 복원하기 단추, 마지막 백업 날짜, OneDrive · Google Drive에 백업 단추" width="568" height="560" loading="lazy"></figure>
+        <div class="tour-text">
+          <span class="tour-step">백업 · 복원</span>
+          <h3>몇 해 치 메모, 백업으로 지키세요</h3>
+          <p>설정의 '백업하기'를 누르면 모든 메모가 ZIP 파일 하나로 묶입니다. OneDrive나 Google Drive를 쓰신다면 단추 한 번으로 클라우드에 바로 올라갑니다.</p>
+          <p>컴퓨터를 바꾸면 새 컴퓨터에서 '복원하기'로 그 파일을 불러오면 됩니다. 복원하기 전에는 지금 메모를 따로 한 벌 떠 두니, 잘못 골라도 되돌릴 수 있습니다.</p>
+          <p><b class="warn">꼭 알아 두세요.</b> Hagah는 메모를 서버가 아닌 이 컴퓨터에만 저장합니다. 컴퓨터가 고장 나면 백업해 두지 않은 메모는 되찾을 방법이 없습니다. 설교를 적은 날에는 백업 한 번을 습관으로 삼아 주세요.</p>
+          <p class="note">마지막으로 언제 백업했는지 설정 창에 늘 표시됩니다.</p>
+        </div>
+      </li>
+      <li class="tour-card" aria-roledescription="slide" aria-label="8 / 8">
         <figure class="tour-pic"><img src="features/inquiry.png" alt="앱 안의 문의하기 폼 — 분류 · 내용 · 께사모 아이디" width="869" height="755" loading="lazy"></figure>
         <div class="tour-text">
           <span class="tour-step">문의하기</span>
