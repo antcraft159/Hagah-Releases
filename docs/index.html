@@ -361,6 +361,14 @@
     font-family: inherit; font-size: .8rem; padding: 1px 7px;
     border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--brand); white-space: nowrap;
   }
+  .install-note ol { margin: 8px 0 0; padding-left: 1.3em; }
+  .install-note li + li { margin-top: 4px; }
+  .install-note li::marker { color: var(--gold-deep); font-weight: 600; }
+  /* 드문 경우(스마트 앱 컨트롤) — 본문 아래 작게 */
+  .install-sub {
+    display: block; margin-top: 10px; padding-top: 8px;
+    border-top: 1px dashed var(--line); font-size: .78rem;
+  }
 
   .cta-lead { margin: 0 0 18px; font-size: .9rem; color: var(--muted); letter-spacing: .06em; }
 
@@ -662,14 +670,28 @@
       </a>
       <ul id="meta" class="meta"><li class="plain">Windows 10 · 11</li></ul>
 
-      <p class="install-note">
+      <div class="install-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8.2 7.5 9.5 4.3-1.3 7.5-5 7.5-9.5V6z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r=".6" fill="currentColor"/></svg>
-        <span>
-          설치할 때 <b>‘Windows의 PC 보호’</b> 창이 뜨면
-          <span class="kbd-path"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>을 눌러 주세요.
-          새로 나온 앱이라 뜨는 안내이니 안심하셔도 됩니다.
-        </span>
-      </p>
+        <div>
+          Hagah는 개인이 만들어 무료로 나누는 앱이라, 해마다 비용이 드는 <b>Microsoft 인증(코드 서명)</b>을 받지 않았습니다.
+          그래서 처음 설치할 때 경고가 뜹니다. 앱에는 문제가 없으니 이렇게 허락해 주세요.
+          <ol>
+            <li>
+              내려받을 때 브라우저가 막으면 — Chrome은 <kbd>유지</kbd>,
+              Edge는 <kbd>⋯</kbd> → <kbd>유지</kbd> → <kbd>자세히 표시</kbd> → <kbd>그래도 유지</kbd>
+            </li>
+            <li>
+              설치할 때 <b>‘Windows의 PC 보호’</b> 창이 뜨면
+              <span class="kbd-path"><kbd>추가 정보</kbd> → <kbd>실행</kbd></span>
+            </li>
+          </ol>
+          <span class="install-sub">
+            <b>‘스마트 앱 컨트롤’</b>이 막았다고 나오면 위 단추가 없고,
+            <kbd>Windows 보안</kbd> → <kbd>앱 및 브라우저 컨트롤</kbd> → <kbd>스마트 앱 컨트롤 설정</kbd>에서
+            <kbd>끔</kbd>으로 바꿔야 설치됩니다. 다만 PC에 따라 한 번 끄면 다시 켜기 어려울 수 있으니 신중히 정해 주세요.
+          </span>
+        </div>
+      </div>
     </div>
 
     <div class="panel" id="panel-mac-arm" role="tabpanel" aria-labelledby="tab-mac-arm" hidden>
@@ -706,7 +728,8 @@
     <section class="guide" id="mac-guide" aria-labelledby="mac-guide-title" hidden>
       <h2 id="mac-guide-title">Mac에서 처음 열 때</h2>
       <p class="guide-lead">
-        Hagah는 Apple 앱 스토어 밖에서 나누는 앱이라, 처음 한 번은 Mac이 실행을 막습니다.
+        Hagah는 개인이 만들어 무료로 나누는 앱이라, 해마다 비용이 드는 <b>Apple 인증(공증)</b>을 받지 않았습니다.
+        그래서 처음 한 번은 Mac이 실행을 막습니다. 앱에는 문제가 없으니
         아래 순서로 <b>한 번만 허락</b>해 주시면 그다음부터는 그냥 열립니다.
       </p>
       <ol>
