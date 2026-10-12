@@ -262,7 +262,14 @@
     width: min(1068px, calc(100vw - var(--wide-gutter) * 2));
     margin: 36px 0 0 calc(50% - min(534px, 50vw - var(--wide-gutter)));
   }
+  /* 다크 · 라이트 두 장을 한 칸에 겹쳐 부채꼴로 편다. 아래 가운데 먼 점을 축으로 서로 반대로 기울인다.
+     data-front 가 앞에 설 장을 정하고, 뒤의 장을 누르면 자리를 바꾼다 */
+  .shot-fan {
+    --fan-x: 5.5%; --fan-front: 2.2deg; --fan-back: -3.2deg;
+    display: grid; padding: 22px 0 6px;
+  }
   .shot-frame {
+    grid-area: 1 / 1; justify-self: center; width: 89%;
     border-radius: 14px; overflow: hidden;
     background: #1b1b1f;
     border: 1px solid rgba(201, 154, 82, .45);
@@ -270,12 +277,39 @@
       0 2px 4px rgba(51, 29, 18, .12),
       0 28px 60px -24px rgba(51, 29, 18, .55),
       0 50px 90px -50px rgba(201, 154, 82, .6);
+    transform-origin: 50% 160%;
+    transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .55s ease, box-shadow .55s ease;
   }
+  .shot-frame.light { background: #fff; }
+  .shot-fan[data-front="dark"] .shot-frame.dark,
+  .shot-fan[data-front="light"] .shot-frame.light { z-index: 2; transform: translateX(var(--fan-x)) rotate(var(--fan-front)); }
+  .shot-fan[data-front="dark"] .shot-frame.light,
+  .shot-fan[data-front="light"] .shot-frame.dark {
+    z-index: 1; transform: translateX(calc(var(--fan-x) * -1)) rotate(var(--fan-back));
+    filter: saturate(.9) brightness(.97);
+    box-shadow: 0 2px 4px rgba(51, 29, 18, .1), 0 20px 44px -26px rgba(51, 29, 18, .45);
+  }
+  /* 뒤의 장은 눌러서 앞으로 부를 수 있다는 것을 살짝 들어 올려 알린다 */
+  .shot-fan[data-front="dark"] .shot-frame.light:hover,
+  .shot-fan[data-front="light"] .shot-frame.dark:hover { transform: translateX(calc(var(--fan-x) * -1.25)) rotate(calc(var(--fan-back) - .8deg)); filter: none; }
+  .shot-frame a { display: block; }
+  .shot-frame a:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: -4px; }
   .shot-bar { display: flex; align-items: center; gap: 7px; height: 30px; padding: 0 14px; background: #26262b; }
   .shot-bar i { width: 9px; height: 9px; border-radius: 50%; background: #4a4a52; }
   .shot-bar span { margin-left: 8px; font-size: .74rem; color: #a8a29a; letter-spacing: .08em; }
+  .shot-frame.light .shot-bar { background: #ececef; }
+  .shot-frame.light .shot-bar i { background: #c9c9cf; }
+  .shot-frame.light .shot-bar span { color: #8d877f; }
   .shot img { display: block; width: 100%; height: auto; }
-  .shot figcaption { margin-top: 14px; font-size: .86rem; color: var(--muted); }
+  .shot figcaption { margin-top: 18px; font-size: .86rem; color: var(--muted); }
+  @media (max-width: 640px) {
+    .shot-fan { --fan-x: 4%; --fan-front: 1.6deg; --fan-back: -2.4deg; padding-top: 14px; }
+    .shot-frame { width: 92%; border-radius: 10px; }
+    .shot-bar { height: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shot-frame { transition: none; }
+  }
 
   /* ── 기능 둘러보기: 그림 + 설명 카드를 가로로 넘긴다. 폭은 실제 앱 화면과 같게 펼친다 ── */
   .tour {
@@ -520,11 +554,17 @@
   <p class="tagline rise d2">설교 메모 전용 앱</p>
 
   <figure class="shot rise d2">
-    <div class="shot-frame">
-      <div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i><span>HAGAH</span></div>
-      <a href="screenshot.jpg" target="_blank" rel="noopener"><img src="screenshot.jpg" alt="Hagah 편집기 화면 — 왼쪽에 설교 메모 목록, 오른쪽에 시편 1편 설교 메모" width="1800" height="871"></a>
+    <div class="shot-fan" id="shot-fan" data-front="dark">
+      <div class="shot-frame light">
+        <div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i><span>HAGAH</span></div>
+        <a href="screenshot-light.jpg" target="_blank" rel="noopener"><img src="screenshot-light.jpg" alt="밝은 테마의 Hagah 편집기 화면 — 왼쪽에 설교 메모 목록, 오른쪽에 시편 1편 설교 메모" width="1800" height="873"></a>
+      </div>
+      <div class="shot-frame dark">
+        <div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i><span>HAGAH</span></div>
+        <a href="screenshot.jpg" target="_blank" rel="noopener"><img src="screenshot.jpg" alt="어두운 테마의 Hagah 편집기 화면 — 왼쪽에 설교 메모 목록, 오른쪽에 시편 1편 설교 메모" width="1800" height="873"></a>
+      </div>
     </div>
-    <figcaption>실제 앱 화면 · 구절을 치면 개역한글 본문이 바로 들어옵니다</figcaption>
+    <figcaption>실제 앱 화면 · 어두운 테마와 밝은 테마 · 뒤의 화면을 누르면 앞으로 나옵니다</figcaption>
   </figure>
 
   <section class="row row-a rise d3" aria-label="Hagah 이름의 뜻">
@@ -1052,6 +1092,20 @@
       // API 한도(시간당 60회) 초과 등 — 릴리스 페이지로 보낸다
       TARGETS.forEach(function (t) { fill(t, null); });
     });
+})();
+
+// 앱 화면 부채꼴: 뒤의 장을 누르면 앞으로 부르고, 앞의 장은 그림 원본을 연다
+(function () {
+  var fan = document.getElementById("shot-fan");
+  if (!fan) return;
+  fan.addEventListener("click", function (e) {
+    var frame = e.target.closest(".shot-frame");
+    if (!frame) return;
+    var theme = frame.classList.contains("light") ? "light" : "dark";
+    if (fan.dataset.front === theme) return;
+    e.preventDefault();
+    fan.dataset.front = theme;
+  });
 })();
 </script>
 </body>
