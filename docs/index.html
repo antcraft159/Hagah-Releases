@@ -159,6 +159,9 @@
   .meta li.ver { color: var(--brand); border-color: var(--gold-deep); font-weight: 600; }
   .meta .plain { border: 0; background: none; }
 
+  /* 아직 못 내는 모바일 — 단추가 아니라 흐린 한 줄로만 */
+  .mobile-note { margin: -4px 0 14px; text-align: center; font-size: .82rem; color: var(--muted); }
+
   /* 오른쪽 위 다운로드 수 */
   .stats {
     position: fixed; top: 52px; right: 60px; z-index: 2;
@@ -688,6 +691,7 @@
         Mac · 인텔
       </button>
     </div>
+    <p class="mobile-note">모바일(iPhone · Android)은 준비하고 있습니다.</p>
 
     <div class="panel" id="panel-win" role="tabpanel" aria-labelledby="tab-win">
       <a id="dl" class="btn" href="https://github.com/antcraft159/Hagah-Releases/releases" aria-disabled="true">
