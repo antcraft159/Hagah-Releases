@@ -406,6 +406,18 @@
     text-align: left; font-size: .86rem; color: var(--text); line-height: 1.65;
   }
   .guide[hidden] { display: none; }
+
+  /* Android 탭 → 설치 방법 페이지(android.html). 단추보다 한 단 낮은 테두리 줄 */
+  .guide-link {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    max-width: 460px; margin: 16px auto 0; padding: 14px 18px;
+    background: rgba(255, 255, 255, .85);
+    border: 1px solid var(--gold-deep); border-radius: 14px;
+    color: var(--brand); font-weight: 600; font-size: .95rem; text-decoration: none;
+  }
+  .guide-link:hover { background: #fff; }
+  .guide-link:focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 2px; }
+  .guide-link svg { width: 18px; height: 18px; flex: none; }
   .guide h2 { margin: 0 0 6px; font-family: "Gowun Batang", serif; font-size: 1.05rem; color: var(--brand); }
   .guide b { color: var(--brand); }
   .guide-lead { margin: 0 0 10px; color: var(--muted); }
@@ -458,6 +470,7 @@
     .meta li { padding: 3px 10px; }
     .install-note { max-width: none; margin: 18px 0 0; }
     .guide { max-width: none; margin: 18px 0 0; }
+    .guide-link { max-width: none; }
   }
 
   /* 기능 카드가 한 줄씩 쌓일 때(휴대폰 · 넓은 화면 오른쪽 단)는 아이콘을 왼쪽에 둔 가로 줄로 */
@@ -834,41 +847,10 @@
         </span>
       </p>
 
-      <section class="guide" id="android-guide" aria-labelledby="android-guide-title">
-        <h2 id="android-guide-title">Android에 설치하기</h2>
-        <p class="guide-lead">
-          플레이스토어 밖에서 받는 앱이라 처음 한 번은 휴대폰이 확인을 거칩니다.
-          Hagah는 Google에 등록된 개발자가 서명한 앱이니 아래 순서로 허락해 주세요.
-        </p>
-        <ol>
-          <li>위 단추로 <b>Hagah-android.apk</b>를 받습니다. ‘이 파일은 기기에 해를 끼칠 수 있습니다’가 뜨면 <kbd>그래도 다운로드</kbd>를 누릅니다.</li>
-          <li>다 받으면 알림창이나 브라우저의 다운로드 목록에서 파일을 누릅니다.</li>
-          <li>
-            ‘출처를 알 수 없는 앱’을 막았다는 창이 뜨면 <kbd>설정</kbd>을 누르고
-            <kbd>이 출처 허용</kbd>을 켠 뒤 뒤로 돌아옵니다. (처음 한 번만)
-          </li>
-          <li><kbd>설치</kbd>를 누릅니다.</li>
-          <li>
-            <b>Play 프로텍트</b> 창이 뜨면
-            <span class="kbd-path"><kbd>세부정보 더보기</kbd> → <kbd>무시하고 설치</kbd></span>를 누릅니다.
-          </li>
-          <li><kbd>열기</kbd>를 누르면 Hagah가 시작됩니다.</li>
-        </ol>
-        <p class="guide-tip">
-          삼성 휴대폰에서 3번 창이 안 뜨면
-          <span class="kbd-path"><kbd>설정</kbd> → <kbd>애플리케이션</kbd> → <kbd>Chrome</kbd>(또는 삼성 인터넷) → <kbd>출처를 알 수 없는 앱 설치</kbd></span>에서
-          허용으로 바꿔 주세요.
-        </p>
-        <p class="guide-tip">휴대폰마다 창의 문구가 조금씩 다를 수 있습니다. 비슷한 단추를 누르시면 됩니다.</p>
-        <p class="guide-tip">
-          새 판이 나오면 앱이 알려 줍니다. <kbd>업데이트</kbd>를 누르면 되고, 처음 한 번은 ‘Hagah의 앱 설치 허용’을 켜 주세요.
-          덮어 설치라 메모는 그대로 남습니다.
-        </p>
-        <p class="guide-tip">
-          <b>앱을 지우면 앱 안의 메모도 함께 지워집니다.</b> 지우기 전에는 앱의 설정 → 백업으로 백업 파일을 만들어 두세요.
-          설치가 끝난 뒤 다운로드 폴더의 apk 파일은 지워도 됩니다.
-        </p>
-      </section>
+      <a class="guide-link" href="android.html">
+        Android에 설치하는 방법 자세히 보기
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
     </div>
 
     <!-- 두 Mac 탭이 함께 쓰는 첫 실행 안내. Apple 공증을 받지 않아 처음 한 번은 막힌다 -->
@@ -1010,7 +992,7 @@
     { key: "mac-arm",   file: "Hagah-osx-arm64.dmg", label: "Mac(M 시리즈)용 내려받기", os: "macOS 12 이상" },
     { key: "mac-intel", file: "Hagah-osx-x64.dmg",   label: "Mac(인텔)용 내려받기",     os: "macOS 12 이상" },
     { key: "android",   file: "Hagah-android.apk",   label: "Android용 내려받기",       os: "Android 6.0 이상",
-      soon: "Android 판은 곧 올라옵니다.", guide: "android-guide" }
+      soon: "Android 판은 곧 올라옵니다." }
   ];
   var FILES = TARGETS.map(function (t) { return t.file; });
 
@@ -1036,13 +1018,12 @@
     var latest = list && list.find(function (r) {
       return r.assets.some(function (a) { return a.name === t.file; });
     });
-    // 아직 어느 릴리스에도 그 파일이 없다(Android 첫 판 전). 받을 것이 없으니 단추를 잠그고 안내도 감춘다.
+    // 아직 어느 릴리스에도 그 파일이 없다(Android 첫 판 전). 받을 것이 없으니 단추를 잠근다.
     // 파일이 올라오면 다음 방문부터 저절로 내려받기 단추가 된다
     if (!latest && list && t.soon) {
       label.textContent = "준비 중입니다";
       chips(meta, [{ text: t.soon, cls: "plain" }]);
       dl.removeAttribute("href");
-      document.getElementById(t.guide).hidden = true;
       return;
     }
     dl.removeAttribute("aria-disabled");
