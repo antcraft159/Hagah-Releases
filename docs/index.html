@@ -834,7 +834,7 @@
         </span>
       </p>
 
-      <section class="guide" aria-labelledby="android-guide-title">
+      <section class="guide" id="android-guide" aria-labelledby="android-guide-title">
         <h2 id="android-guide-title">Android에 설치하기</h2>
         <p class="guide-lead">
           플레이스토어 밖에서 받는 앱이라 처음 한 번은 휴대폰이 확인을 거칩니다.
@@ -1009,7 +1009,8 @@
     { key: "",          file: "Hagah-win-Setup.exe", label: "Windows용 내려받기",        os: "Windows 10 · 11" },
     { key: "mac-arm",   file: "Hagah-osx-arm64.dmg", label: "Mac(M 시리즈)용 내려받기", os: "macOS 12 이상" },
     { key: "mac-intel", file: "Hagah-osx-x64.dmg",   label: "Mac(인텔)용 내려받기",     os: "macOS 12 이상" },
-    { key: "android",   file: "Hagah-android.apk",   label: "Android용 내려받기",       os: "Android 6.0 이상" }
+    { key: "android",   file: "Hagah-android.apk",   label: "Android용 내려받기",       os: "Android 6.0 이상",
+      soon: "Android 판은 곧 올라옵니다.", guide: "android-guide" }
   ];
   var FILES = TARGETS.map(function (t) { return t.file; });
 
@@ -1035,6 +1036,15 @@
     var latest = list && list.find(function (r) {
       return r.assets.some(function (a) { return a.name === t.file; });
     });
+    // 아직 어느 릴리스에도 그 파일이 없다(Android 첫 판 전). 받을 것이 없으니 단추를 잠그고 안내도 감춘다.
+    // 파일이 올라오면 다음 방문부터 저절로 내려받기 단추가 된다
+    if (!latest && list && t.soon) {
+      label.textContent = "준비 중입니다";
+      chips(meta, [{ text: t.soon, cls: "plain" }]);
+      dl.removeAttribute("href");
+      document.getElementById(t.guide).hidden = true;
+      return;
+    }
     dl.removeAttribute("aria-disabled");
     if (!latest) {
       label.textContent = "내려받기 페이지로 가기";
