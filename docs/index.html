@@ -1036,7 +1036,7 @@
     dl.href = asset.browser_download_url;
     label.textContent = t.label;
     chips(meta, [
-      { text: latest.tag_name, cls: "ver" },
+      { text: "v" + latest.tag_name.replace(/^v/i, ""), cls: "ver" },
       { text: ymd(latest.published_at) },
       { text: mb(asset.size) },
       { text: t.os }

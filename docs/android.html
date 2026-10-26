@@ -254,7 +254,7 @@
       dl.href = asset.browser_download_url;
       dl.removeAttribute("aria-disabled");
       label.textContent = "Android용 내려받기";
-      note.textContent = latest.tag_name + " · " + (asset.size / 1048576).toFixed(0) + "MB · 와이파이에서 받는 것이 좋습니다.";
+      note.textContent = "v" + latest.tag_name.replace(/^v/i, "") + " · " + (asset.size / 1048576).toFixed(0) + "MB · 와이파이에서 받는 것이 좋습니다.";
     })
     .catch(function () {
       dl.removeAttribute("aria-disabled");
