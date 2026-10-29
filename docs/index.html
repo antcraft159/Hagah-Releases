@@ -147,6 +147,13 @@
   }
   .stat span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
   .stat.today b { color: var(--gold-deep); }
+  .stats { flex-wrap: wrap; justify-content: center; }
+  .stat-platforms {
+    flex-basis: 100%; margin: 8px 8px 0; padding-top: 6px;
+    border-top: 1px solid var(--line);
+    font-size: .72rem; color: var(--muted); text-align: center; white-space: nowrap;
+  }
+  .stat-platforms:empty { display: none; }
 
   /* ── 근간 말씀: 이사야 31:4 와 '하가' 의 뜻 ── */
   .verse {
@@ -884,9 +891,10 @@
     </div>
   </section>
 
-  <div id="stats" class="stats" aria-label="내려받은 수">
+  <div id="stats" class="stats" aria-label="설치 수">
     <div class="stat"><b id="stat-total">–</b><span>누적</span></div>
     <div class="stat today"><b id="stat-today">–</b><span>오늘</span></div>
+    <div id="stat-platforms" class="stat-platforms"></div>
   </div>
 </main>
 
@@ -994,7 +1002,6 @@
     { key: "android",   file: "Hagah-android.apk",   label: "Android용 내려받기",       os: "Android 6.0 이상",
       soon: "Android 판은 곧 올라옵니다." }
   ];
-  var FILES = TARGETS.map(function (t) { return t.file; });
 
   function ymd(iso) {
     var d = new Date(iso);
@@ -1057,33 +1064,32 @@
     setTimeout(function () { el.textContent = to.toLocaleString("ko-KR"); }, dur + 100);
   }
 
-  // 누적 = 모든 릴리스의 설치 파일(Windows · Mac 둘 · Android) 다운로드 합. 오늘 = 누적 − 오늘 0시(KST) 기준값(stats 브랜치, Actions 가 기록)
-  function showStats(list) {
-    var total = 0;
-    list.forEach(function (r) {
-      r.assets.forEach(function (a) { if (FILES.indexOf(a.name) >= 0) total += a.download_count; });
-    });
-    var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
-    var box = document.getElementById("stats");
-
-    countUp(document.getElementById("stat-total"), total);
-    box.classList.add("ready");
-
-    fetch("https://raw.githubusercontent.com/" + REPO + "/stats/stats.json", { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (s) {
-        var base = s.baselines && s.baselines[today];
-        if (typeof base === "number") countUp(document.getElementById("stat-today"), Math.max(0, total - base));
-      })
-      .catch(function () {});
+  // 누적 = 앱이 실제로 켜져 보고한 컴퓨터 수(설치집계 시트 줄 수). 오늘 = 그중 처음 쓴 날이 오늘(KST)인 것
+  // 아래 줄 = 누적을 플랫폼(시트 I 칸)별로 나눈 것. 플랫폼 칸이 비어 있던 예전 줄은 '기타'
+  var PLATFORM_NAMES = [["windows", "Windows"], ["macos", "Mac"], ["android", "Android"], ["ios", "iPhone"], ["linux", "Linux"], ["unknown", "기타"]];
+  function showPlatforms(by) {
+    if (!by) return;
+    var parts = [];
+    PLATFORM_NAMES.forEach(function (p) { if (by[p[0]]) parts.push(p[1] + " " + by[p[0]].toLocaleString("ko-KR")); });
+    document.getElementById("stat-platforms").textContent = parts.join(" · ");
   }
+  var INSTALLS_URL = "https://script.google.com/macros/s/AKfycbxfOzuIZAQTveRHQnkBCCo97q3BV1Z6WKbcbxl45RwoI8bcr-LzlSpBJxn-sSgHTSxq/exec?public=1";
+  fetch(INSTALLS_URL)
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (s) {
+      if (!s.ok || typeof s.total !== "number") return;
+      countUp(document.getElementById("stat-total"), s.total);
+      countUp(document.getElementById("stat-today"), s.today || 0);
+      showPlatforms(s.byPlatform);
+      document.getElementById("stats").classList.add("ready");
+    })
+    .catch(function () {});
 
   // releases/latest 는 prerelease 를 건너뛰므로 목록에서 직접 고른다
   fetch("https://api.github.com/repos/" + REPO + "/releases?per_page=100")
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (list) {
       list = list.filter(function (r) { return !r.draft; });
-      showStats(list);
       TARGETS.forEach(function (t) { fill(t, list); });
     })
     .catch(function () {
