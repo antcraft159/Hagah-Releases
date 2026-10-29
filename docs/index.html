@@ -1066,11 +1066,15 @@
 
   // 누적 = 앱이 실제로 켜져 보고한 컴퓨터 수(설치집계 시트 줄 수). 오늘 = 그중 처음 쓴 날이 오늘(KST)인 것
   // 아래 줄 = 누적을 플랫폼(시트 I 칸)별로 나눈 것. 플랫폼 칸이 비어 있던 예전 줄은 '기타'
-  var PLATFORM_NAMES = [["windows", "Windows"], ["macos", "Mac"], ["android", "Android"], ["ios", "iPhone"], ["linux", "Linux"], ["unknown", "기타"]];
+  // 내려받기 단추가 있는 셋(always)은 0 이어도 보이고, 나머지는 있을 때만
+  var PLATFORM_NAMES = [["windows", "Windows", true], ["macos", "Mac", true], ["android", "Android", true], ["ios", "iPhone"], ["linux", "Linux"], ["unknown", "기타"]];
   function showPlatforms(by) {
     if (!by) return;
     var parts = [];
-    PLATFORM_NAMES.forEach(function (p) { if (by[p[0]]) parts.push(p[1] + " " + by[p[0]].toLocaleString("ko-KR")); });
+    PLATFORM_NAMES.forEach(function (p) {
+      var n = by[p[0]] || 0;
+      if (n || p[2]) parts.push(p[1] + " " + n.toLocaleString("ko-KR"));
+    });
     document.getElementById("stat-platforms").textContent = parts.join(" · ");
   }
   var INSTALLS_URL = "https://script.google.com/macros/s/AKfycbxfOzuIZAQTveRHQnkBCCo97q3BV1Z6WKbcbxl45RwoI8bcr-LzlSpBJxn-sSgHTSxq/exec?public=1";
