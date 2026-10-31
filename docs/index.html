@@ -1000,7 +1000,9 @@
     { key: "mac-arm",   file: "Hagah-osx-arm64.dmg", label: "Mac(M 시리즈)용 내려받기", os: "macOS 12 이상" },
     { key: "mac-intel", file: "Hagah-osx-x64.dmg",   label: "Mac(인텔)용 내려받기",     os: "macOS 12 이상" },
     { key: "android",   file: "Hagah-android.apk",   label: "Android용 내려받기",       os: "Android 6.0 이상",
-      soon: "Android 판은 곧 올라옵니다." }
+      soon: "Android 판은 곧 올라옵니다.",
+      // 화면(UI)을 손보는 동안 내려받기를 막는다. 다시 열 때는 이 줄만 지우면 된다
+      paused: "Android 화면을 손보는 중이라 잠시 내려받기를 멈췄습니다. 곧 다시 열겠습니다." }
   ];
 
   function ymd(iso) {
@@ -1022,6 +1024,12 @@
   // 그 파일이 있는 가장 새 릴리스로 단추를 잇는다(Mac 은 0.0.8-beta 부터 있다). list 가 없으면 릴리스 페이지로
   function fill(t, list) {
     var dl = part(t, "dl"), label = part(t, "dl-label"), meta = part(t, "meta");
+    if (t.paused) {
+      label.textContent = "준비 중입니다";
+      chips(meta, [{ text: t.paused, cls: "plain" }]);
+      dl.removeAttribute("href");
+      return;
+    }
     var latest = list && list.find(function (r) {
       return r.assets.some(function (a) { return a.name === t.file; });
     });
