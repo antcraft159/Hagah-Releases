@@ -124,36 +124,18 @@
   /* 아직 못 내는 모바일 — 단추가 아니라 흐린 한 줄로만 */
   .mobile-note { margin: -4px 0 14px; text-align: center; font-size: .82rem; color: var(--muted); }
 
-  /* 오른쪽 위 다운로드 수 */
+  /* 부제 아래 한 줄 설치 수 — 숫자가 오기 전엔 자리만 잡고 숨긴다(첫 화면이 흔들리지 않게) */
   .stats {
-    position: fixed; top: 52px; right: 60px; z-index: 2;
-    display: flex; align-items: stretch;
-    padding: 12px 6px 10px;
-    background: rgba(255, 255, 255, .82);
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    box-shadow: 0 8px 24px -14px rgba(74, 44, 29, .35);
+    margin: 12px 0 0;
+    font-size: .86rem; color: var(--muted); letter-spacing: .04em;
     opacity: 0; transition: opacity .6s ease;
   }
   .stats.ready { opacity: 1; }
-  .stat { min-width: 84px; padding: 0 14px; text-align: center; }
-  .stat + .stat { border-left: 1px solid var(--line); }
-  .stat b {
-    display: block;
-    font-weight: 600;
-    font-size: 1.6rem; line-height: 1.2; color: var(--brand);
-    font-variant-numeric: tabular-nums;
-  }
-  .stat span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
-  .stat.today b { color: var(--gold-deep); }
-  .stats { flex-wrap: wrap; justify-content: center; }
-  .stat-platforms {
-    flex-basis: 100%; margin: 8px 8px 0; padding-top: 6px;
-    border-top: 1px solid var(--line);
-    font-size: .72rem; color: var(--muted); text-align: center; white-space: nowrap;
-  }
-  .stat-platforms:empty { display: none; }
+  .stats b { font-weight: 600; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .stats .today b { color: var(--gold-deep); }
+  .stats .dot { margin: 0 .5em; color: var(--line); }
+  .stats .platforms { display: block; margin-top: 4px; font-size: .76rem; letter-spacing: .02em; }
+  .stats .platforms:empty { display: none; }
 
   /* ── 근간 말씀: 이사야 31:4 와 '하가' 의 뜻 ── */
   .verse {
@@ -504,7 +486,6 @@
     .tab svg { display: none; }
     :root { --wide-gutter: 22px; } /* 폰에서는 넓은 그림 여백을 줄인다 */
     main { padding: 64px 30px; }
-    .stats { position: static; margin: 28px auto 0; width: fit-content; }
   }
   @media (prefers-reduced-motion: reduce) {
     .rise { animation: none; opacity: 1; transform: none; }
@@ -517,6 +498,7 @@
   <div class="logo rise d1"><img src="logo.png" alt="Hagah 로고" width="132" height="132"></div>
   <h1 class="rise d2">HAGAH</h1>
   <p class="tagline rise d2">설교 메모 전용 앱</p>
+  <p id="stats" class="stats" aria-live="polite"><b id="stat-total">–</b>대에서 쓰고 있어요<span class="dot">·</span><span class="today">오늘 <b id="stat-today">–</b></span><span id="stat-platforms" class="platforms"></span></p>
 
   <figure class="shot rise d2">
     <div class="shot-fan" id="shot-fan" data-front="dark">
@@ -891,11 +873,6 @@
     </div>
   </section>
 
-  <div id="stats" class="stats" aria-label="설치 수">
-    <div class="stat"><b id="stat-total">–</b><span>누적</span></div>
-    <div class="stat today"><b id="stat-today">–</b><span>오늘</span></div>
-    <div id="stat-platforms" class="stat-platforms"></div>
-  </div>
 </main>
 
 <script>
@@ -1073,7 +1050,7 @@
   }
 
   // 누적 = 앱이 실제로 켜져 보고한 컴퓨터 수(설치집계 시트 줄 수). 오늘 = 그중 처음 쓴 날이 오늘(KST)인 것
-  // 아래 줄 = 누적을 플랫폼(시트 I 칸)별로 나눈 것. 플랫폼 칸이 비어 있던 예전 줄은 '기타'
+  // 그 아래 줄 = 누적을 플랫폼(시트 I 칸)별로 나눈 것. 플랫폼 칸이 비어 있던 예전 줄은 '기타'
   // 내려받기 단추가 있는 셋(always)은 0 이어도 보이고, 나머지는 있을 때만
   var PLATFORM_NAMES = [["windows", "Windows", true], ["macos", "Mac", true], ["android", "Android", true], ["ios", "iPhone"], ["linux", "Linux"], ["unknown", "기타"]];
   function showPlatforms(by) {
