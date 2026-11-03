@@ -238,7 +238,7 @@
   var label = document.getElementById("dl-label");
   var note = document.getElementById("dl-note");
   // 화면(UI)을 손보는 동안 내려받기를 막는다. 다시 열 때는 PAUSED 를 "" 로
-  var PAUSED = "Android 화면을 손보는 중이라 잠시 내려받기를 멈췄습니다. 곧 다시 열겠습니다.";
+  var PAUSED = "";
   if (PAUSED) {
     label.textContent = "준비 중입니다";
     dl.removeAttribute("href");
