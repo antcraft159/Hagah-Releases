@@ -720,7 +720,7 @@
         Android
       </button>
     </div>
-    <p class="mobile-note">iPhone은 준비하고 있습니다.</p>
+    <p class="mobile-note">iOS는 준비하고 있습니다.</p>
 
     <div class="panel" id="panel-win" role="tabpanel" aria-labelledby="tab-win">
       <a id="dl" class="btn" href="https://github.com/antcraft159/Hagah-Releases/releases" aria-disabled="true">
@@ -1050,7 +1050,7 @@
   // 누적 = 앱이 실제로 켜져 보고한 컴퓨터 수(설치집계 시트 줄 수). 오늘 = 그중 처음 쓴 날이 오늘(KST)인 것
   // 그 아래 줄 = 누적을 플랫폼(시트 I 칸)별로 나눈 것. 플랫폼 칸이 비어 있던 예전 줄은 '기타'
   // 내려받기 단추가 있는 셋(always)은 0 이어도 보이고, 나머지는 있을 때만
-  var PLATFORM_NAMES = [["windows", "Windows", true], ["macos", "Mac", true], ["android", "Android", true], ["ios", "iPhone"], ["linux", "Linux"], ["unknown", "기타"]];
+  var PLATFORM_NAMES = [["windows", "Windows", true], ["macos", "Mac", true], ["android", "Android", true], ["ios", "iOS"], ["linux", "Linux"], ["unknown", "기타"]];
   function showPlatforms(by) {
     if (!by) return;
     var parts = [];
