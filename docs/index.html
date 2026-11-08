@@ -413,6 +413,19 @@
   .guide ol, .guide ul { margin: 0; padding-left: 1.3em; }
   .guide li + li { margin-top: 6px; }
   .guide-danger { margin: 0 0 12px; color: var(--warn); font-weight: 600; }
+  /* 꼭 거쳐야 하는 안내 — 제목 바로 아래 붉은 띠 */
+  .guide-must {
+    display: flex; align-items: center; gap: 10px;
+    margin: 8px 0 16px; padding: 14px 16px; border-radius: 10px;
+    background: var(--warn); color: #fff; font-size: 1.05rem; font-weight: 800; line-height: 1.45;
+    box-shadow: 0 4px 14px rgba(192, 57, 43, .35);
+  }
+  .guide-must::before {
+    content: "!"; flex: none; display: grid; place-items: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #fff; color: var(--warn); font-size: 1.2rem; font-weight: 900;
+  }
+  .guide-must b { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
   .guide-sub { margin: 14px 0 6px; font-weight: 600; color: var(--brand); }
   .guide li::marker { color: var(--gold-deep); font-weight: 600; }
   .guide kbd {
@@ -757,6 +770,7 @@
       <!-- 스마트 앱 컨트롤이 켜진 PC 에선 서명 없는 앱을 '실행' 단추 없이 막는다 -->
       <section class="guide" aria-labelledby="sac-guide-title">
         <h2 id="sac-guide-title">Hagah가 실행되지 않을 때 (스마트 앱 컨트롤)</h2>
+        <p class="guide-must"><span><b>처음 설치 시 꼭 읽고 따라 해 주세요!</b> 이 과정을 거치지 않으면 Hagah가 실행되지 않을 수 있습니다.</span></p>
         <p class="guide-lead">
           <b>스마트 앱 컨트롤</b>은 Windows 11에 들어 있는 보안 기능으로,
           이름이 알려지지 않았거나 서명이 없는 앱을 실행 전에 미리 막습니다.
@@ -845,6 +859,7 @@
     <!-- 두 Mac 탭이 함께 쓰는 첫 실행 안내. Apple 공증을 받지 않아 처음 한 번은 막힌다 -->
     <section class="guide" id="mac-guide" aria-labelledby="mac-guide-title" hidden>
       <h2 id="mac-guide-title">Mac에서 처음 열 때</h2>
+      <p class="guide-must"><span><b>처음 설치 시 꼭 읽고 따라 해 주세요!</b> 이 과정을 거치지 않으면 Hagah가 열리지 않습니다.</span></p>
       <p class="guide-lead">
         Hagah는 개인이 만들어 무료로 나누는 앱이라, 해마다 비용이 드는 <b>Apple 인증(공증)</b>을 받지 않았습니다.
         그래서 처음 한 번은 Mac이 실행을 막습니다. 앱에는 문제가 없으니
