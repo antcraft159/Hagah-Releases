@@ -70,6 +70,12 @@
   .warn { border-color: #e7c2bc; background: #fffaf8; }
   .warn h2 { color: var(--warn); }
   b { color: var(--brand); }
+  .check { text-align: center; border-color: var(--gold-deep); }
+  .check .check-label { font-size: .85rem; color: var(--muted); }
+  .check .check-code {
+    margin: 2px 0 8px; font-family: ui-monospace, Consolas, Menlo, monospace;
+    font-size: 1.8rem; font-weight: 600; letter-spacing: .18em; color: var(--brand);
+  }
   [hidden] { display: none !important; }
   footer { margin-top: 32px; text-align: center; font-size: .86rem; color: var(--muted); }
   footer a { color: var(--brand); }
@@ -85,6 +91,13 @@
 
   <!-- 읽을 수 있는 초대 -->
   <section id="ok" hidden>
+    <!-- 확인 번호: 가짜 초대 링크를 가려내게 관리자 공지의 번호와 견준다(앱 SeatFingerprint 와 같은 값). -->
+    <div class="card check" id="check" hidden>
+      <p class="check-label">확인 번호</p>
+      <p class="check-code" id="fingerprint"></p>
+      <p>관리자가 공지에 적은 번호와 같은지 보세요. <b>다르면 가짜 링크</b>일 수 있으니 연결하지 마세요.</p>
+    </div>
+
     <button class="btn" id="open" type="button">Hagah 에서 열기</button>
 
     <div class="card" id="noapp" hidden>
@@ -162,6 +175,26 @@
 
   document.getElementById("ok").hidden = false;
   document.getElementById("code").textContent = memberUrl;
+
+  // SHA-256(주소) 앞 40비트 → Crockford Base32 8글자. 앱 SeatFingerprint.For 와 같아야 한다.
+  function fingerprint(text) {
+    var ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)).then(function (buffer) {
+      var bytes = new Uint8Array(buffer);
+      var bits = 0;
+      for (var i = 0; i < 5; i++) { bits = bits * 256 + bytes[i]; }
+      var out = "";
+      for (var j = 0; j < 8; j++) { out = ALPHABET[bits % 32] + out; bits = Math.floor(bits / 32); }
+      return out;
+    });
+  }
+
+  if (window.crypto && crypto.subtle) {
+    fingerprint(memberUrl).then(function (value) {
+      document.getElementById("fingerprint").textContent = value;
+      document.getElementById("check").hidden = false;
+    }, function () { /* 못 구하면 앱에서 본다 */ });
+  }
 
   function openApp() { location.href = target; }
 
