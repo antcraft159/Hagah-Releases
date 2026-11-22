@@ -131,7 +131,8 @@
 <script>
 (function () {
   var ID = /^[A-Za-z0-9_\-]{10,}$/;
-  var DOMAIN = /^[A-Za-z0-9.\-]+$/;
+  // 글자/숫자로 시작 · 끝나는 라벨을 점으로 잇는다(. · .. · - 는 안 된다). 앱 SeatInviteLink.DOMAIN_REGEX 와 같다.
+  var DOMAIN = /^[A-Za-z0-9](?:[A-Za-z0-9\-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9\-]*[A-Za-z0-9])?)*$/;
 
   var params = {};
   location.hash.replace(/^#/, "").split("&").forEach(function (pair) {
@@ -143,6 +144,13 @@
 
   var s = params.s, d = params.d;
   var valid = ID.test(s || "") && (d === undefined || DOMAIN.test(d));
+
+  // 앱 연결 칸과 같은 길이 규칙: 만들어질 웹 앱 주소가 500자를 넘으면 앱이 못 읽는다.
+  if (valid) {
+    var urlLength = d ? ("https://script.google.com/a/macros/" + d + "/s/" + s + "/exec").length
+                      : ("https://script.google.com/macros/s/" + s + "/exec").length;
+    valid = urlLength <= 500;
+  }
 
   if (!valid) {
     document.getElementById("lead").textContent = "";
